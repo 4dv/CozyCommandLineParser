@@ -19,7 +19,7 @@ namespace CozyCommandLineParser
         private CommandsDictionary commandsDic;
 
 //        private MethodInfo defaultCommand;
-        private FriendlyEnumerator<string> argsEnumerator;
+        private MultiPassEnumerator<string> argsEnumerator;
 
         public List<Type> SearchInTypes { get; } = new List<Type>();
         public List<Assembly> SearchInAssemblies { get; } = new List<Assembly>();
@@ -46,7 +46,7 @@ namespace CozyCommandLineParser
 
         public object Execute(string[] args)
         {
-            argsEnumerator = new FriendlyEnumerator<string>(args);
+            argsEnumerator = new MultiPassEnumerator<string>(args);
             FindMatchingCommandAndRun();
             return null;
         }
@@ -88,11 +88,15 @@ namespace CozyCommandLineParser
 
             var instance = Activator.CreateInstance(type);
             var options = new OptionsDictionary(type);
-            options.FillProperties(instance);
-            var parameters = options.CreateParameters(methodInfo);
+            options.FillProperties(instance, argsEnumerator);
+            var parameters = options.CreateParameters(methodInfo, argsEnumerator);
+
+            LastCommandInstance = instance;
 
             methodInfo.Invoke(instance, parameters);
         }
+
+        public object LastCommandInstance { get; private set; }
 
 
         public static void Error(string message)

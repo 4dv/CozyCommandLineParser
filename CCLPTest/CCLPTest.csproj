@@ -42,7 +42,9 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="TestCommands.cs" />
     <Compile Include="LetterCaseConverterTests.cs" />
+    <Compile Include="MultiPassEnumeratorTests.cs" />
     <Compile Include="Tests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
