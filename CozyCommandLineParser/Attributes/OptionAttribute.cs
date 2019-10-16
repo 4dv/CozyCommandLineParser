@@ -1,5 +1,3 @@
-using System.Reflection;
-
 namespace CozyCommandLineParser.Attributes
 {
     public class OptionAttribute : NamedAttribute

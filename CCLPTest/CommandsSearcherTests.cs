@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using System.Reflection;
 using AnotherCCLPTest;
 using CozyCommandLineParser;
@@ -11,17 +13,17 @@ namespace CCLPTest
         [Test]
         public void SearchTest()
         {
-            var defaultAssembly = Assembly.GetExecutingAssembly();
+            Assembly defaultAssembly = Assembly.GetExecutingAssembly();
 
             var options = new ParserOptions();
-            var types = CommandsSearcher.FindAllTypes(options, defaultAssembly);
+            List<Type> types = CommandsSearcher.FindAllTypes(options, defaultAssembly);
             Assert.AreEqual(new[] {typeof(AnotherTestCommands), typeof(TestCommands)}, types);
 
-            options = new ParserOptions() {SearchFilterByNamespaces = new[] {"AnotherCCLPTest"}};
+            options = new ParserOptions {SearchFilterByNamespaces = new[] {"AnotherCCLPTest"}};
             types = CommandsSearcher.FindAllTypes(options, defaultAssembly);
             Assert.AreEqual(new[] {typeof(AnotherTestCommands)}, types);
 
-            options = new ParserOptions() {SearchInTypes = new[] {typeof(TestCommands)}};
+            options = new ParserOptions {SearchInTypes = new[] {typeof(TestCommands)}};
             types = CommandsSearcher.FindAllTypes(options, defaultAssembly);
             Assert.AreEqual(new[] {typeof(TestCommands)}, types);
         }

@@ -30,6 +30,5 @@ namespace CCLPTest
             Assert.AreEqual(wordsSnake, LetterCaseConverter.FromGenericCase(words, NameConventions.SnakeCase));
             Assert.AreEqual(words, LetterCaseConverter.ToGenericCase(wordsSnake, NameConventions.SnakeCase));
         }
-
     }
 }

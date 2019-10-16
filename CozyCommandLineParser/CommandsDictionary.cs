@@ -11,12 +11,12 @@ namespace CozyCommandLineParser
 {
     public class CommandsDictionary
     {
-        private Dictionary<string, MethodInfo> commandsDic;
-        private MethodInfo defaultCommand;
+        private readonly Dictionary<string, MethodInfo> commandsDic;
+        private readonly MethodInfo defaultCommand;
 
         public CommandsDictionary(IEnumerable<Type> types, NamesReader namesReader)
         {
-            var commands = types.SelectMany(t => t.GetMethods()
+            List<MethodInfo> commands = types.SelectMany(t => t.GetMethods()
                 .Where(m => m.GetCustomAttribute<CommandAttribute>() != null)).ToList();
 
             commandsDic = new Dictionary<string, MethodInfo>();
@@ -26,7 +26,7 @@ namespace CozyCommandLineParser
                 var attr = methodInfo.GetCustomAttribute<CommandAttribute>();
                 Check.NotNull(attr, "attr");
 
-                var names = namesReader.GetNames(methodInfo);
+                IReadOnlyList<string> names = namesReader.GetNames(methodInfo);
 
                 if (attr.IsDefault)
                 {
@@ -41,7 +41,7 @@ namespace CozyCommandLineParser
                 foreach (string name in names)
                 {
                     if (commandsDic.ContainsKey(name))
-                        CommandLine.Error($"More than one method registered for the same command: 'name'");
+                        CommandLine.Error("More than one method registered for the same command: 'name'");
 
                     commandsDic[name] = methodInfo;
                 }
@@ -50,10 +50,10 @@ namespace CozyCommandLineParser
 
         public string GetDescriptions()
         {
-            StringBuilder sb = new StringBuilder();
+            var sb = new StringBuilder();
             foreach (KeyValuePair<string, MethodInfo> cmdPair in commandsDic)
             {
-                var mi = cmdPair.Value;
+                MethodInfo mi = cmdPair.Value;
                 var attr = mi.GetCustomAttribute<CommandAttribute>();
                 Check.NotNull(attr, "attr");
 
@@ -69,7 +69,7 @@ namespace CozyCommandLineParser
         {
             if (cmd == null) return defaultCommand;
 
-            if (commandsDic.TryGetValue(cmd, out var methodInfo))
+            if (commandsDic.TryGetValue(cmd, out MethodInfo methodInfo))
                 return methodInfo;
 
             CommandLine.Error($"Command {cmd} is not found");

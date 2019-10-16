@@ -3,11 +3,9 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Reflection;
 using CozyCommandLineParser.Utils;
-using JetBrains.Annotations;
 
 namespace CozyCommandLineParser
 {
-
     public class ParserOptions
     {
         public NameConventions DefaultNameConvention { get; set; } = NameConventions.CamelCase;

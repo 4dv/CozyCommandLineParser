@@ -13,21 +13,22 @@ namespace CozyCommandLineParser
         {
             var allTypes = new List<Type>();
 
-            var types = options.SearchInTypes;
+            IReadOnlyList<Type> types = options.SearchInTypes;
             if (types != null) allTypes.AddRange(types);
 
-            var assemblies = options.SearchInAssemblies;
+            IReadOnlyList<Assembly> assemblies = options.SearchInAssemblies;
             if (options.SearchInTypes == null && options.SearchInAssemblies == null)
-            {
                 assemblies = new[] {defaultAssembly};
-            }
 
-            var nsSet = options.SearchFilterByNamespaces == null ? null : new HashSet<string>( options.SearchFilterByNamespaces);
+            HashSet<string> nsSet = options.SearchFilterByNamespaces == null
+                ? null
+                : new HashSet<string>(options.SearchFilterByNamespaces);
 
             if (assemblies != null)
             {
-                var typesFromAssemblies = assemblies.SelectMany(a => GetMatchingTypes(a, nsSet)).Where(t =>
-                    t.GetMethods().Any(m => m.HasAttribute<CommandAttribute>()));
+                IEnumerable<Type> typesFromAssemblies = assemblies.SelectMany(a => GetMatchingTypes(a, nsSet)).Where(
+                    t =>
+                        t.GetMethods().Any(m => m.HasAttribute<CommandAttribute>()));
                 allTypes.AddRange(typesFromAssemblies);
             }
 

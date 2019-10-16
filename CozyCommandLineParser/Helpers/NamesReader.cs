@@ -9,18 +9,18 @@ namespace CozyCommandLineParser.Helpers
 {
     public class NamesReader
     {
-        private readonly ParserOptions options;
         private readonly LetterCaseConverter converter;
+        private readonly ParserOptions options;
 
         public NamesReader(ParserOptions options)
         {
             this.options = options;
-            this.converter = new LetterCaseConverter(options.DefaultNameConvention);
+            converter = new LetterCaseConverter(options.DefaultNameConvention);
         }
 
         public IReadOnlyList<string> GetNames(MemberInfo mi)
         {
-            var attr = Check.NotNull(mi.GetCustomAttribute<NamedAttribute>());
+            NamedAttribute attr = Check.NotNull(mi.GetCustomAttribute<NamedAttribute>());
 
             return attr.Names ?? new[]
                        {GetDefaultName(mi, attr)};
@@ -28,7 +28,7 @@ namespace CozyCommandLineParser.Helpers
 
         private string GetDefaultName(MemberInfo mi, NamedAttribute attr)
         {
-            var pfx = attr is OptionAttribute ? options.DefaultOptionLongPrefix : "";
+            string pfx = attr is OptionAttribute ? options.DefaultOptionLongPrefix : "";
             return pfx + converter.FromGenericCase(mi.Name);
         }
 

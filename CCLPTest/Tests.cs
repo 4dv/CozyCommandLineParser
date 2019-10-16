@@ -1,5 +1,4 @@
-﻿using System;
-using CozyCommandLineParser;
+﻿using CozyCommandLineParser;
 using NUnit.Framework;
 
 namespace CCLPTest
@@ -7,23 +6,26 @@ namespace CCLPTest
     [TestFixture]
     public class Tests
     {
+        private TestCommands TestCommandLine(string[] args, string expectedExecutedMethod, object[] expectedCommandArgs)
+        {
+            var commandLine = new CommandLine();
+            commandLine.Execute(args);
+            var instance = (TestCommands) commandLine.LastCommandInstance;
+            instance.CheckLastExecutedCommand(expectedExecutedMethod, expectedCommandArgs);
+            return instance;
+        }
+
         [Test]
         public void Test1()
         {
-            var instance = TestCommandLine(new[] {"commandWithArgs", "--stringOption='abcde'", "--intOption=42", "-b", "posArg"},
+            TestCommands instance = TestCommandLine(
+                new[] {"commandWithArgs", "--stringOption='abcde'", "--intOption=42", "-b", "posArg"},
                 nameof(TestCommands.SomeCommandWithArgs),
                 new object[] {"posArg"});
 
             Assert.AreEqual("abcde", instance.StringOption);
             Assert.AreEqual(42, instance.IntOption);
             Assert.IsTrue(instance.BoolOption);
-        }
-
-        [Test]
-        public void TestSimpleCommand()
-        {
-            TestCommandLine(new[] {"simpleCommand"}, nameof(TestCommands.SimpleCommand),
-                new object[] {});
         }
 
         [Test]
@@ -39,19 +41,18 @@ namespace CCLPTest
                 new[] {"commandWithArgs", "gaga", "35", "one more"},
                 nameof(TestCommands.SomeCommandWithArgs),
                 new object[] {"gaga", 35}));
-            Assert.AreEqual("Get more arguments, than expected by function, excessive arguments: [one more]", ex.Message);
+            Assert.AreEqual("Get more arguments, than expected by function, excessive arguments: [one more]",
+                ex.Message);
 
-            TestCommandLine(new [] {"commandWithArgs", "gaga", "35"}, nameof(TestCommands.SomeCommandWithArgs),
+            TestCommandLine(new[] {"commandWithArgs", "gaga", "35"}, nameof(TestCommands.SomeCommandWithArgs),
                 new object[] {"gaga", 35});
         }
 
-        private TestCommands TestCommandLine(string[] args, string expectedExecutedMethod, object[] expectedCommandArgs)
+        [Test]
+        public void TestSimpleCommand()
         {
-            var commandLine = new CommandLine();
-            commandLine.Execute(args);
-            var instance = ((TestCommands) commandLine.LastCommandInstance);
-            instance.CheckLastExecutedCommand(expectedExecutedMethod, expectedCommandArgs);
-            return instance;
+            TestCommandLine(new[] {"simpleCommand"}, nameof(TestCommands.SimpleCommand),
+                new object[] { });
         }
     }
 }

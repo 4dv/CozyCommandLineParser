@@ -1,5 +1,4 @@
 using System;
-using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using CozyCommandLineParser.Helpers;
@@ -17,17 +16,17 @@ namespace CozyCommandLineParser
         public void FillProperties(object instance, MultiPassEnumerator<string> argsEnumerator)
         {
             foreach (string arg in argsEnumerator)
-            {
                 // todo DimaCh don't process anything at the moment
                 argsEnumerator.SaveCurrentToNextPass();
-            }
         }
 
         public object[] CreateParameters(MethodInfo methodInfo, MultiPassEnumerator<string> argsEnumerator)
         {
             argsEnumerator.Reset();
-            var res = methodInfo.GetParameters()
-                .Select(pi => argsEnumerator.MoveNext() ? ConvertToType(argsEnumerator.Current, pi.ParameterType) : Type.Missing).ToArray();
+            object[] res = methodInfo.GetParameters()
+                .Select(pi =>
+                    argsEnumerator.MoveNext() ? ConvertToType(argsEnumerator.Current, pi.ParameterType) : Type.Missing)
+                .ToArray();
 
             if (argsEnumerator.MoveNext() || !argsEnumerator.IsAllFinished)
             {

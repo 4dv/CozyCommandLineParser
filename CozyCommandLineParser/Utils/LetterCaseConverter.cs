@@ -1,4 +1,3 @@
-using System;
 using System.Text;
 
 namespace CozyCommandLineParser.Utils
@@ -28,7 +27,7 @@ namespace CozyCommandLineParser.Utils
         /// <summary>
         /// MyCommand => my-command
         /// </summary>
-        KebabCase,
+        KebabCase
     }
 
 
@@ -60,7 +59,7 @@ namespace CozyCommandLineParser.Utils
             switch (convention)
             {
                 case NameConventions.CamelCase:
-                    return Char.ToLower(str[0], ParserOptions.Culture) + str.Substring(1);
+                    return char.ToLower(str[0], ParserOptions.Culture) + str.Substring(1);
 
                 case NameConventions.PascalCase:
                     break;
@@ -97,7 +96,7 @@ namespace CozyCommandLineParser.Utils
             switch (convention)
             {
                 case NameConventions.CamelCase:
-                    return Char.ToUpper(str[0], ParserOptions.Culture) + str.Substring(1);
+                    return char.ToUpper(str[0], ParserOptions.Culture) + str.Substring(1);
 
                 case NameConventions.PascalCase:
                 case NameConventions.LowerCase: // no information how to convert back lowercase, return it as it is
@@ -115,15 +114,18 @@ namespace CozyCommandLineParser.Utils
 
         private static string SeparatorToCapitals(string str, char sep)
         {
-            StringBuilder sb = new StringBuilder(str.Length);
-            bool nextToUpper = true;
-            for (int i = 0; i < str.Length; i++)
+            var sb = new StringBuilder(str.Length);
+            var nextToUpper = true;
+            for (var i = 0; i < str.Length; i++)
             {
                 char ch = str[i];
-                if (ch == sep) nextToUpper = true;
+                if (ch == sep)
+                {
+                    nextToUpper = true;
+                }
                 else
                 {
-                    sb.Append(nextToUpper ? Char.ToUpper(ch, ParserOptions.Culture) : ch);
+                    sb.Append(nextToUpper ? char.ToUpper(ch, ParserOptions.Culture) : ch);
                     nextToUpper = false;
                 }
             }
@@ -133,16 +135,19 @@ namespace CozyCommandLineParser.Utils
 
         private static string SubCapitals(string str, char sub)
         {
-            StringBuilder sb = new StringBuilder(str.Length);
-            for (int i = 0; i < str.Length; i++)
+            var sb = new StringBuilder(str.Length);
+            for (var i = 0; i < str.Length; i++)
             {
                 char ch = str[i];
-                if (Char.IsUpper(ch))
+                if (char.IsUpper(ch))
                 {
                     if (i > 0) sb.Append(sub);
-                    sb.Append(Char.ToLower(ch, ParserOptions.Culture));
+                    sb.Append(char.ToLower(ch, ParserOptions.Culture));
                 }
-                else sb.Append(ch);
+                else
+                {
+                    sb.Append(ch);
+                }
             }
 
             return sb.ToString();

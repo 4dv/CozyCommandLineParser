@@ -1,4 +1,3 @@
-
 using System.Collections;
 using System.Collections.Generic;
 
@@ -6,20 +5,23 @@ namespace CozyCommandLineParser.Utils
 {
     public class MultiPassEnumerator<T> : IEnumerable<T>, IEnumerator<T>
     {
-        private List<T> values;
-        private List<T> valuesForNextPass = new List<T>();
+        private const int INITIAL_POS = -1;
 
         private int currentPos = INITIAL_POS;
         private bool saveCurrentToNextPass;
-
-        public bool SaveCurrentToNextPassDefault { get; set; }= false;
-
-        private const int INITIAL_POS = -1;
+        private List<T> values;
+        private List<T> valuesForNextPass = new List<T>();
 
         public MultiPassEnumerator(IEnumerable<T> values)
         {
             this.values = new List<T>(values);
         }
+
+        public bool SaveCurrentToNextPassDefault { get; set; }
+
+        public bool IsPassFinished => currentPos >= values.Count;
+
+        public bool IsAllFinished => IsPassFinished && valuesForNextPass.Count == 0;
 
         public IEnumerator<T> GetEnumerator()
         {
@@ -47,10 +49,6 @@ namespace CozyCommandLineParser.Utils
             return !IsPassFinished;
         }
 
-        public bool IsPassFinished => currentPos >= values.Count;
-
-        public bool IsAllFinished => IsPassFinished && valuesForNextPass.Count == 0;
-
         /// <summary>
         /// reset doesn't restart current enumerator. Instead is starts new pass. If we have some values
         /// saved for the next pass, it first enumerate through them, then continue with unprocessed before items.
@@ -63,21 +61,15 @@ namespace CozyCommandLineParser.Utils
 
             if (valuesForNextPass.Count == 0) return;
 
-            var orig = SaveCurrentToNextPassDefault;
+            bool orig = SaveCurrentToNextPassDefault;
             SaveCurrentToNextPassDefault = true;
             while (MoveNext()) ;
             SaveCurrentToNextPassDefault = orig;
 
             values = valuesForNextPass;
-            valuesForNextPass=new List<T>();
+            valuesForNextPass = new List<T>();
             currentPos = INITIAL_POS;
             Current = default;
-        }
-
-        public T GetNext()
-        {
-            MoveNext();
-            return Current;
         }
 
         /// <summary>
@@ -86,6 +78,12 @@ namespace CozyCommandLineParser.Utils
         public T Current { get; private set; }
 
         object IEnumerator.Current => Current;
+
+        public T GetNext()
+        {
+            MoveNext();
+            return Current;
+        }
 
         public void SaveCurrentToNextPass()
         {

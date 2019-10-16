@@ -9,6 +9,10 @@ namespace CCLPTest
     {
         private int lastCalledCount;
 
+        private string lastExecutedCommand;
+
+        private object[] lastFunctionArgs;
+
         [Option("--stringOption|-s", "some option with string value")]
         public string StringOption { get; set; }
 
@@ -17,20 +21,14 @@ namespace CCLPTest
 
         [Option("-b")] public bool BoolOption { get; set; }
 
-        [Option]
-        public DateTime SomeDateTime { get; set; }
+        [Option] public DateTime SomeDateTime { get; set; }
 
-        [Option]
-        public double SomeDouble { get; set; }
-
-        private string lastExecutedCommand;
-
-        private object[] lastFunctionArgs;
+        [Option] public double SomeDouble { get; set; }
 
         [Command(Description = "Simple command to run")]
         public int SimpleCommand()
         {
-            CommandExecuted(new object[]{});
+            CommandExecuted(new object[] { });
             return 10;
         }
 

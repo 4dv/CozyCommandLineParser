@@ -6,7 +6,6 @@ namespace Checkers
     {
         public CheckFailedException(string message) : base(message)
         {
-
         }
     }
 }
