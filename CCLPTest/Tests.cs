@@ -30,11 +30,17 @@ namespace CCLPTest
         }
 
         [Test]
-        public void TestCommandWithStringArg()
+        public void TestCommandWithArgs()
         {
             var commandLine = new CommandLine();
-            commandLine.Execute(new[] {"stringArgCommand"});
-            ((TestCommands)commandLine.LastCommandInstance).CheckLastExecutedCommand(nameof(TestCommands.SimpleCommand));
+            commandLine.Execute(new[] {"commandWithArgs", "defg"});
+            var instance = ((TestCommands) commandLine.LastCommandInstance);
+            instance.CheckLastExecutedCommand(nameof(TestCommands.SomeCommandWithArgs), new object[]{"defg", 42});
+
+            commandLine.Execute(new[] {"commandWithArgs"});
+            instance = ((TestCommands) commandLine.LastCommandInstance);
+            instance.CheckLastExecutedCommand(nameof(TestCommands.SomeCommandWithArgs), new object[]{"abc", 42});
+
         }
     }
 }

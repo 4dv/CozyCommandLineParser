@@ -87,9 +87,9 @@ namespace CozyCommandLineParser
             var type = Check.NotNull(methodInfo.DeclaringType);
 
             var instance = Activator.CreateInstance(type);
-            var options = new OptionsDictionary(type);
-            options.FillProperties(instance, argsEnumerator);
-            var parameters = options.CreateParameters(methodInfo, argsEnumerator);
+            var optionsDictionary = new OptionsDictionary(type, new NamesReader(options));
+            optionsDictionary.FillProperties(instance, argsEnumerator);
+            var parameters = optionsDictionary.CreateParameters(methodInfo, argsEnumerator);
 
             LastCommandInstance = instance;
 
@@ -102,6 +102,11 @@ namespace CozyCommandLineParser
         public static void Error(string message)
         {
             throw new CommandLineException(message);
+        }
+
+        public static void Warn(string message)
+        {
+            Console.WriteLine("Warning: " + message);
         }
     }
 }

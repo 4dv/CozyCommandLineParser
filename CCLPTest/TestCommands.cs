@@ -18,7 +18,7 @@ namespace CCLPTest
         [Option("-b")] public bool BoolOption { get; set; }
 
         private string lastExecutedCommand;
-        private object[] lastExecutedOptions = null;
+        private object[] lastFunctionArgs;
 
         [Command("commandWithArg", "Description of the command")]
         public int CommandToRun(string posArg)
@@ -36,29 +36,24 @@ namespace CCLPTest
 
         public void CheckLastExecutedCommand(string expectedCommand, object[] expectedOptions = null)
         {
-            Assert.AreEqual(expectedCommand,lastExecutedCommand);
+            Assert.AreEqual(expectedCommand, lastExecutedCommand);
             Assert.AreEqual(1, lastCalledCount);
-            Assert.AreEqual(expectedOptions, lastExecutedOptions);
+            Assert.AreEqual(expectedOptions, lastFunctionArgs);
         }
 
         // if command arguments doesn't have any attributes, they work as positional arguments
-        [Command("stringArgCommand", "This command has one string argument'")]
-        public void StringArgCommandToRun(string arg)
+        [Command("commandWithArgs", "This command has one string argument'")]
+        public void SomeCommandWithArgs(string arg = "abc", int arg2 = 42)
         {
-            CommandExecuted(new object[] {arg});
+            CommandExecuted(new object[] {arg, arg2});
         }
 
-        // if command arguments doesn't have any attributes, they work as positional arguments
-        [Command("commandWithArgs", "This command has its own arguments and doesn't return anything'")]
-        public void AnotherCommandToRun(int arg1, string arg2)
-        {
-            CommandExecuted(new object[] {arg1, arg2});
-        }
 
         private void CommandExecuted(object[] args = null, [CallerMemberName] string callerName = "")
         {
             lastExecutedCommand = callerName;
             lastCalledCount++;
+            lastFunctionArgs = args;
         }
     }
 }
