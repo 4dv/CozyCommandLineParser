@@ -7,7 +7,7 @@ namespace CCLPTest
     public class LetterCaseConverterTests
     {
         [Test]
-        public void FromGenericTest()
+        public void ConverterTest()
         {
             var words = "SeveralWordsHere";
 

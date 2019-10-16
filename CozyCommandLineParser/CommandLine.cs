@@ -11,7 +11,7 @@ namespace CozyCommandLineParser
 {
     public class CommandLine
     {
-        private readonly ParserOptions options = new ParserOptions();
+        private readonly ParserOptions options;
 
         // CommandName => CommandMethod
         private CommandsDictionary commandsDic;
@@ -32,17 +32,12 @@ namespace CozyCommandLineParser
         /// if types and assemblies are both not null, commands will be taken from specified types and will be searched in assemblies
         /// if types and assemblies are both null, commands will be searched in the CallingAssembly
         /// </summary>
-        public CommandLine(ParserOptions options = null, IList<Assembly> assemblies = null, IList<Type> types = null)
+        public CommandLine(ParserOptions options = null)
         {
-            if (options != null)
-                this.options = options;
+            this.options = options = options ?? new ParserOptions();
 
-            if (types == null && assemblies == null)
-            {
-                assemblies = new[] {Assembly.GetCallingAssembly()};
-            }
-
-            FindAllCommands(assemblies, types);
+            var types = CommandsSearcher.FindAllTypes(options, Assembly.GetCallingAssembly());
+            commandsDic = new CommandsDictionary(types, new NamesReader(options));
         }
 
         public object Execute(string[] args)
@@ -52,20 +47,6 @@ namespace CozyCommandLineParser
             return null;
         }
 
-        private void FindAllCommands(IList<Assembly> assemblies = null, IList<Type> types = null)
-        {
-            var allTypes = new List<Type>();
-            if (types != null) allTypes.AddRange(types);
-
-            if (assemblies != null)
-            {
-                var typesFromAssemblies = assemblies.SelectMany(a => a.GetTypes()).Where(t =>
-                    t.GetMethods().Any(m => m.HasAttribute<CommandAttribute>()));
-                allTypes.AddRange(typesFromAssemblies);
-            }
-
-            commandsDic = new CommandsDictionary(allTypes, new NamesReader(options));
-        }
 
         [Command("Help", "Print help")]
         public void PrintHelp()
