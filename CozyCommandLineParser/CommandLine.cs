@@ -16,14 +16,6 @@ namespace CozyCommandLineParser
         // CommandName => CommandMethod
         private CommandsDictionary commandsDic;
 
-//        private MethodInfo defaultCommand;
-        private MultiPassEnumerator<string> argsEnumerator;
-
-        public List<Type> SearchInTypes { get; } = new List<Type>();
-        public List<Assembly> SearchInAssemblies { get; } = new List<Assembly>();
-
-
-        public bool IgnoreCase { get; set; } = true;
         public string HelpHeader { get; set; }
 
         /// <summary>
@@ -40,15 +32,7 @@ namespace CozyCommandLineParser
             commandsDic = new CommandsDictionary(types, new NamesReader(options));
         }
 
-        public object Execute(string[] args)
-        {
-            argsEnumerator = new MultiPassEnumerator<string>(args);
-            FindMatchingCommandAndRun();
-            return null;
-        }
 
-
-        [Command("Help", "Print help")]
         public void PrintHelp()
         {
             Console.WriteLine(HelpHeader);
@@ -56,13 +40,14 @@ namespace CozyCommandLineParser
         }
 
 
-        private void FindMatchingCommandAndRun()
+        public object Execute(string[] args)
         {
+            var argsEnumerator = new MultiPassEnumerator<string>(args);
             var methodInfo = commandsDic.GetMatchingMethod(argsEnumerator.GetNext());
             if (methodInfo == null)
             {
                 PrintHelp();
-                return;
+                return null;
             }
 
             var type = Check.NotNull(methodInfo.DeclaringType);
@@ -74,7 +59,7 @@ namespace CozyCommandLineParser
 
             LastCommandInstance = instance;
 
-            methodInfo.Invoke(instance, parameters);
+            return methodInfo.Invoke(instance, parameters);
         }
 
         public object LastCommandInstance { get; private set; }
