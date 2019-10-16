@@ -42,6 +42,13 @@ namespace CCLPTest
         }
 
         // if command arguments doesn't have any attributes, they work as positional arguments
+        [Command("stringArgCommand", "This command has one string argument'")]
+        public void StringArgCommandToRun(string arg)
+        {
+            CommandExecuted(new object[] {arg});
+        }
+
+        // if command arguments doesn't have any attributes, they work as positional arguments
         [Command("commandWithArgs", "This command has its own arguments and doesn't return anything'")]
         public void AnotherCommandToRun(int arg1, string arg2)
         {

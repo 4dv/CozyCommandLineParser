@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Reflection;
 using CozyCommandLineParser.Utils;
 
@@ -10,16 +11,15 @@ namespace CozyCommandLineParser.Attributes
 
         protected string[] names;
 
+        /// <summary>
+        /// return explicitly specified names or null if names were not set
+        /// </summary>
+        public IReadOnlyList<string> Names => names;
+
         public NamedAttribute(string name = null, string description = null)
         {
             this.names = name?.Split('|');
             this.Description = description;
-        }
-
-        public virtual string[] GetNames(MemberInfo mi)
-        {
-            return names ?? new[]
-                       {LetterCaseConverter.FromGenericCase(mi.Name, CommandLine.Options.DefaultNameConversion)};
         }
     }
 }

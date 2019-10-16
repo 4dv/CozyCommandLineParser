@@ -11,9 +11,7 @@ namespace CozyCommandLineParser
 {
     public class CommandLine
     {
-        public static string OPTION_LONG_BEGINNING = "--";
-
-        public static ParserOptions Options { get; } = new ParserOptions();
+        private readonly ParserOptions options = new ParserOptions();
 
         // CommandName => CommandMethod
         private CommandsDictionary commandsDic;
@@ -34,8 +32,11 @@ namespace CozyCommandLineParser
         /// if types and assemblies are both not null, commands will be taken from specified types and will be searched in assemblies
         /// if types and assemblies are both null, commands will be searched in the CallingAssembly
         /// </summary>
-        public CommandLine(IList<Assembly> assemblies = null, IList<Type> types = null)
+        public CommandLine(ParserOptions options = null, IList<Assembly> assemblies = null, IList<Type> types = null)
         {
+            if (options != null)
+                this.options = options;
+
             if (types == null && assemblies == null)
             {
                 assemblies = new[] {Assembly.GetCallingAssembly()};
@@ -63,8 +64,7 @@ namespace CozyCommandLineParser
                 allTypes.AddRange(typesFromAssemblies);
             }
 
-
-            commandsDic = new CommandsDictionary(allTypes);
+            commandsDic = new CommandsDictionary(allTypes, new NamesReader(options));
         }
 
         [Command("Help", "Print help")]

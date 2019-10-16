@@ -14,7 +14,7 @@ namespace CozyCommandLineParser
         private Dictionary<string, MethodInfo> commandsDic;
         private MethodInfo defaultCommand;
 
-        public CommandsDictionary(IEnumerable<Type> types)
+        public CommandsDictionary(IEnumerable<Type> types, NamesReader namesReader)
         {
             var commands = types.SelectMany(t => t.GetMethods()
                 .Where(m => m.GetCustomAttribute<CommandAttribute>() != null)).ToList();
@@ -26,13 +26,13 @@ namespace CozyCommandLineParser
                 var attr = methodInfo.GetCustomAttribute<CommandAttribute>();
                 Check.NotNull(attr, "attr");
 
-                string[] names = methodInfo.GetNames();
+                var names = namesReader.GetNames(methodInfo);
 
                 if (attr.IsDefault)
                 {
                     if (defaultCommand != null)
                         CommandLine.Error(
-                            $"Only one default command is allowed, {defaultCommand.GetNames().FirstOrDefault()} " +
+                            $"Only one default command is allowed, {namesReader.GetFirstName(defaultCommand)} " +
                             $"and {names.FirstOrDefault()} both set as default");
 
                     defaultCommand = methodInfo;

@@ -28,5 +28,13 @@ namespace CCLPTest
             commandLine.Execute(new[] {"simpleCommand"});
             ((TestCommands)commandLine.LastCommandInstance).CheckLastExecutedCommand(nameof(TestCommands.SimpleCommand));
         }
+
+        [Test]
+        public void TestCommandWithStringArg()
+        {
+            var commandLine = new CommandLine();
+            commandLine.Execute(new[] {"stringArgCommand"});
+            ((TestCommands)commandLine.LastCommandInstance).CheckLastExecutedCommand(nameof(TestCommands.SimpleCommand));
+        }
     }
 }
