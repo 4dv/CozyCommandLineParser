@@ -27,9 +27,13 @@ namespace CozyCommandLineParser
             argsEnumerator.Reset();
             var res = methodInfo.GetParameters()
                 .Select(pi => argsEnumerator.MoveNext() ? argsEnumerator.Current : Type.Missing).ToArray();
-            // todo check that we don't have excessive arguments
-//            if (!argsEnumerator.MoveNext())
-//                CommandLine.Error("Get more arguments, than expected by function, excessive arguments: " + string.Join(",", argsEnumerator));
+            if (argsEnumerator.MoveNext() || !argsEnumerator.IsAllFinished)
+            {
+                argsEnumerator.SaveCurrentToNextPass();
+                CommandLine.Error("Get more arguments, than expected by function, excessive arguments: [" +
+                                  string.Join(",", argsEnumerator) + ']');
+            }
+
             return res;
         }
     }

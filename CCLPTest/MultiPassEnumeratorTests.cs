@@ -15,8 +15,6 @@ namespace CCLPTest
         {
             var mp = new MultiPassEnumerator<int>(new[] {1, 2, 3, 4});
 
-            Assert.AreEqual(1, mp.GetNext());
-
             List<int> result = new List<int>();
 
             foreach (var value in mp)
@@ -25,11 +23,16 @@ namespace CCLPTest
                 result.Add(value);
             }
 
-            Assert.AreEqual(new[]{2, 3, 4}, result);
+            Assert.AreEqual(new[]{1, 2, 3, 4}, result);
             Assert.AreEqual(0, mp.GetNext());
             Assert.AreEqual(0, mp.Current);
 
             result.Clear();
+
+            mp.Reset();
+            Assert.AreEqual(2, mp.GetNext());
+            mp.SaveCurrentToNextPass();
+
             foreach (var value in mp)
             {
                 result.Add(value);

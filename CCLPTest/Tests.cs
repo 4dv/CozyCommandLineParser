@@ -35,6 +35,12 @@ namespace CCLPTest
             TestCommandLine(new[] {"commandWithArgs"}, nameof(TestCommands.SomeCommandWithArgs),
                 new object[] {"abc", 42});
 
+            var ex = Assert.Throws<CommandLineException>(() => TestCommandLine(
+                new[] {"commandWithArgs", "gaga", "35", "one more"},
+                nameof(TestCommands.SomeCommandWithArgs),
+                new object[] {"gaga", 35}));
+            Assert.AreEqual("Get more arguments, than expected by function, excessive arguments: [one more]", ex.Message);
+
             TestCommandLine(new [] {"commandWithArgs", "gaga", "35"}, nameof(TestCommands.SomeCommandWithArgs),
                 new object[] {"gaga", 35});
         }

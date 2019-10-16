@@ -6,11 +6,19 @@ namespace CozyCommandLineParser.Utils
 {
     public class MultiPassEnumerator<T> : IEnumerable<T>, IEnumerator<T>
     {
-        private IEnumerator<T> enumerator;
+        private List<T> values;
+        private List<T> valuesForNextPass = new List<T>();
+
+        private int currentPos = INITIAL_POS;
+        private bool saveCurrentToNextPass;
+
+        public bool SaveCurrentToNextPassDefault { get; set; }= false;
+
+        private const int INITIAL_POS = -1;
 
         public MultiPassEnumerator(IEnumerable<T> values)
         {
-            this.enumerator = values.GetEnumerator();
+            this.values = new List<T>(values);
         }
 
         public IEnumerator<T> GetEnumerator()
@@ -26,16 +34,20 @@ namespace CozyCommandLineParser.Utils
 
         public void Dispose()
         {
-            enumerator.Dispose();
         }
 
         public bool MoveNext()
         {
-            IsPassFinished = !enumerator.MoveNext();
+            if (saveCurrentToNextPass && currentPos >= 0)
+                valuesForNextPass.Add(Current);
+
+            currentPos++;
+            saveCurrentToNextPass = SaveCurrentToNextPassDefault;
+            Current = IsPassFinished ? default : values[currentPos];
             return !IsPassFinished;
         }
 
-        public bool IsPassFinished { get; private set; }
+        public bool IsPassFinished => currentPos >= values.Count;
 
         public bool IsAllFinished => IsPassFinished && valuesForNextPass.Count == 0;
 
@@ -46,13 +58,20 @@ namespace CozyCommandLineParser.Utils
         /// </summary>
         public void Reset()
         {
-            if (valuesForNextPass.Count > 0)
-            {
-                while(MoveNext())
-                    SaveCurrentToNextPass();
-                enumerator = valuesForNextPass.GetEnumerator();
-                valuesForNextPass = new List<T>();
-            }
+            MoveNext(); // to save current, if it should be saved
+            currentPos--; // to position before next element
+
+            if (valuesForNextPass.Count == 0) return;
+
+            var orig = SaveCurrentToNextPassDefault;
+            SaveCurrentToNextPassDefault = true;
+            while (MoveNext()) ;
+            SaveCurrentToNextPassDefault = orig;
+
+            values = valuesForNextPass;
+            valuesForNextPass=new List<T>();
+            currentPos = INITIAL_POS;
+            Current = default;
         }
 
         public T GetNext()
@@ -64,15 +83,13 @@ namespace CozyCommandLineParser.Utils
         /// <summary>
         /// returns Current value if pass is not finished, otherwise - default value of type T (null for classes)
         /// </summary>
-        public T Current => IsPassFinished ? default(T) : enumerator.Current;
+        public T Current { get; private set; }
 
         object IEnumerator.Current => Current;
 
-        private List<T> valuesForNextPass = new List<T>();
-
         public void SaveCurrentToNextPass()
         {
-            valuesForNextPass.Add(Current);
+            saveCurrentToNextPass = true;
         }
     }
 }
