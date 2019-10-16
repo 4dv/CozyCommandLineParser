@@ -60,7 +60,7 @@ namespace CozyCommandLineParser.Utils
             switch (convention)
             {
                 case NameConventions.CamelCase:
-                    return Char.ToLowerInvariant(str[0]) + str.Substring(1);
+                    return Char.ToLower(str[0], ParserOptions.Culture) + str.Substring(1);
 
                 case NameConventions.PascalCase:
                     break;
@@ -97,7 +97,7 @@ namespace CozyCommandLineParser.Utils
             switch (convention)
             {
                 case NameConventions.CamelCase:
-                    return Char.ToUpperInvariant(str[0]) + str.Substring(1);
+                    return Char.ToUpper(str[0], ParserOptions.Culture) + str.Substring(1);
 
                 case NameConventions.PascalCase:
                 case NameConventions.LowerCase: // no information how to convert back lowercase, return it as it is
@@ -123,7 +123,7 @@ namespace CozyCommandLineParser.Utils
                 if (ch == sep) nextToUpper = true;
                 else
                 {
-                    sb.Append(nextToUpper ? Char.ToUpper(ch) : ch);
+                    sb.Append(nextToUpper ? Char.ToUpper(ch, ParserOptions.Culture) : ch);
                     nextToUpper = false;
                 }
             }
@@ -140,7 +140,7 @@ namespace CozyCommandLineParser.Utils
                 if (Char.IsUpper(ch))
                 {
                     if (i > 0) sb.Append(sub);
-                    sb.Append(Char.ToLower(ch));
+                    sb.Append(Char.ToLower(ch, ParserOptions.Culture));
                 }
                 else sb.Append(ch);
             }

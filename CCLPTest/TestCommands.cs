@@ -17,7 +17,14 @@ namespace CCLPTest
 
         [Option("-b")] public bool BoolOption { get; set; }
 
+        [Option]
+        public DateTime SomeDateTime { get; set; }
+
+        [Option]
+        public double SomeDouble { get; set; }
+
         private string lastExecutedCommand;
+
         private object[] lastFunctionArgs;
 
         [Command(Description = "Simple command to run")]

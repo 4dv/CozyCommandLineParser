@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Globalization;
 using System.Reflection;
 using CozyCommandLineParser.Utils;
 using JetBrains.Annotations;
@@ -27,5 +28,7 @@ namespace CozyCommandLineParser
         /// If not null, will filter types found in assemblies and leave only from namespaces specified in SearchFilterByNamespaces
         /// </summary>
         public IReadOnlyList<string> SearchFilterByNamespaces { get; set; } = null;
+
+        public static CultureInfo Culture { get; set; } = CultureInfo.InvariantCulture;
     }
 }

@@ -1,4 +1,5 @@
 using System;
+using System.Globalization;
 using System.Linq;
 using System.Reflection;
 using CozyCommandLineParser.Helpers;
@@ -26,7 +27,8 @@ namespace CozyCommandLineParser
         {
             argsEnumerator.Reset();
             var res = methodInfo.GetParameters()
-                .Select(pi => argsEnumerator.MoveNext() ? argsEnumerator.Current : Type.Missing).ToArray();
+                .Select(pi => argsEnumerator.MoveNext() ? ConvertToType(argsEnumerator.Current, pi.ParameterType) : Type.Missing).ToArray();
+
             if (argsEnumerator.MoveNext() || !argsEnumerator.IsAllFinished)
             {
                 argsEnumerator.SaveCurrentToNextPass();
@@ -35,6 +37,11 @@ namespace CozyCommandLineParser
             }
 
             return res;
+        }
+
+        private object ConvertToType(string str, Type type)
+        {
+            return Convert.ChangeType(str, type, ParserOptions.Culture);
         }
     }
 }
