@@ -1,4 +1,5 @@
-﻿using CozyCommandLineParser;
+﻿using System;
+using CozyCommandLineParser;
 using NUnit.Framework;
 
 namespace CCLPTest
@@ -9,38 +10,42 @@ namespace CCLPTest
         [Test]
         public void Test1()
         {
-            var commandLine = new CommandLine();
-
-            commandLine.Execute(new[] {"commandWithArg", "--stringOption='abcde'", "--intOption=42", "-b", "posArg"});
-            var instance = ((TestCommands) commandLine.LastCommandInstance);
+            var instance = TestCommandLine(new[] {"commandWithArgs", "--stringOption='abcde'", "--intOption=42", "-b", "posArg"},
+                nameof(TestCommands.SomeCommandWithArgs),
+                new object[] {"posArg"});
 
             Assert.AreEqual("abcde", instance.StringOption);
             Assert.AreEqual(42, instance.IntOption);
             Assert.IsTrue(instance.BoolOption);
-
-            instance.CheckLastExecutedCommand(nameof(TestCommands.CommandToRun), new []{"posArg"});
         }
 
         [Test]
         public void TestSimpleCommand()
         {
-            var commandLine = new CommandLine();
-            commandLine.Execute(new[] {"simpleCommand"});
-            ((TestCommands)commandLine.LastCommandInstance).CheckLastExecutedCommand(nameof(TestCommands.SimpleCommand));
+            TestCommandLine(new[] {"simpleCommand"}, nameof(TestCommands.SimpleCommand),
+                new object[] {});
         }
 
         [Test]
         public void TestCommandWithArgs()
         {
+            TestCommandLine(new[] {"commandWithArgs", "defg"}, nameof(TestCommands.SomeCommandWithArgs),
+                new object[] {"defg", 42});
+
+            TestCommandLine(new[] {"commandWithArgs"}, nameof(TestCommands.SomeCommandWithArgs),
+                new object[] {"abc", 42});
+
+            TestCommandLine(new [] {"commandWithArgs", "gaga", "35"}, nameof(TestCommands.SomeCommandWithArgs),
+                new object[] {"gaga", 35});
+        }
+
+        private TestCommands TestCommandLine(string[] args, string expectedExecutedMethod, object[] expectedCommandArgs)
+        {
             var commandLine = new CommandLine();
-            commandLine.Execute(new[] {"commandWithArgs", "defg"});
+            commandLine.Execute(args);
             var instance = ((TestCommands) commandLine.LastCommandInstance);
-            instance.CheckLastExecutedCommand(nameof(TestCommands.SomeCommandWithArgs), new object[]{"defg", 42});
-
-            commandLine.Execute(new[] {"commandWithArgs"});
-            instance = ((TestCommands) commandLine.LastCommandInstance);
-            instance.CheckLastExecutedCommand(nameof(TestCommands.SomeCommandWithArgs), new object[]{"abc", 42});
-
+            instance.CheckLastExecutedCommand(expectedExecutedMethod, expectedCommandArgs);
+            return instance;
         }
     }
 }

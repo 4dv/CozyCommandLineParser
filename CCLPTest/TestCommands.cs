@@ -20,17 +20,10 @@ namespace CCLPTest
         private string lastExecutedCommand;
         private object[] lastFunctionArgs;
 
-        [Command("commandWithArg", "Description of the command")]
-        public int CommandToRun(string posArg)
-        {
-            CommandExecuted(new object[] {posArg});
-            return 10;
-        }
-
         [Command(Description = "Simple command to run")]
         public int SimpleCommand()
         {
-            CommandExecuted();
+            CommandExecuted(new object[]{});
             return 10;
         }
 
@@ -49,7 +42,7 @@ namespace CCLPTest
         }
 
 
-        private void CommandExecuted(object[] args = null, [CallerMemberName] string callerName = "")
+        private void CommandExecuted(object[] args, [CallerMemberName] string callerName = "")
         {
             lastExecutedCommand = callerName;
             lastCalledCount++;
