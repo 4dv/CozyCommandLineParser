@@ -1,10 +1,10 @@
-﻿using CozyCommandLineParser;
+﻿using System.Threading;
+using CozyCommandLineParser;
 using NUnit.Framework;
 
 namespace CCLPTest
 {
-    [TestFixture]
-    public class Tests
+    public class Tests : TestBase
     {
         private TestCommands TestCommandLine(string[] args, string expectedExecutedMethod, object[] expectedCommandArgs)
         {

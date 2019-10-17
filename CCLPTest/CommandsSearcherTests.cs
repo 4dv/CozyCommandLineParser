@@ -1,14 +1,15 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Threading;
 using AnotherCCLPTest;
 using CozyCommandLineParser;
 using NUnit.Framework;
 
 namespace CCLPTest
 {
-    [TestFixture]
-    public class CommandsSearcherTests
+
+    public class CommandsSearcherTests : TestBase
     {
         [Test]
         public void SearchTest()

@@ -4,8 +4,7 @@ using NUnit.Framework;
 
 namespace CCLPTest
 {
-    [TestFixture]
-    public class MultiPassEnumeratorTests
+    public class MultiPassEnumeratorTests : TestBase
     {
         [Test]
         public void MultiPassTest()

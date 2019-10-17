@@ -3,8 +3,7 @@ using NUnit.Framework;
 
 namespace CCLPTest
 {
-    [TestFixture]
-    public class LetterCaseConverterTests
+    public class LetterCaseConverterTests : TestBase
     {
         [Test]
         public void ConverterTest()
