@@ -2,7 +2,7 @@
 
 namespace Checkers
 {
-    public static class Check
+    public static class Ensure
     {
         [ContractAnnotation("val:null=>halt")]
         public static T NotNull<T>(T val, string message = null) where T : class

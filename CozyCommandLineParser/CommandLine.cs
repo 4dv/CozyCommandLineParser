@@ -26,7 +26,7 @@ namespace CozyCommandLineParser
             this.options = options = options ?? new ParserOptions();
 
             List<Type> types = CommandsSearcher.FindAllTypes(options, Assembly.GetCallingAssembly());
-            commandsDic = new CommandsDictionary(types, new NamesReader(options));
+            commandsDic = new CommandsDictionary(types, options);
         }
 
         public string HelpHeader { get; set; }
@@ -51,10 +51,10 @@ namespace CozyCommandLineParser
                 return null;
             }
 
-            Type type = Check.NotNull(methodInfo.DeclaringType);
+            Type type = Ensure.NotNull(methodInfo.DeclaringType);
 
             object instance = Activator.CreateInstance(type);
-            var optionsDictionary = new OptionsDictionary(type, new NamesReader(options));
+            var optionsDictionary = new OptionsDictionary(type, options);
             optionsDictionary.FillProperties(instance, argsEnumerator);
             object[] parameters = optionsDictionary.CreateParameters(methodInfo, argsEnumerator);
 

@@ -11,6 +11,8 @@ namespace CozyCommandLineParser
         public NameConventions DefaultNameConvention { get; set; } = NameConventions.CamelCase;
         public string DefaultOptionLongPrefix { get; set; } = "--";
 
+        public string EndOfNamedOptions { get; set; } = "--";
+
         /// <summary>
         /// if both SearchInAssemblies and SearchInTypes are null, will search in CallingAssembly
         /// </summary>

@@ -20,11 +20,12 @@ namespace CozyCommandLineParser.Helpers
 
         public IReadOnlyList<string> GetNames(MemberInfo mi)
         {
-            NamedAttribute attr = Check.NotNull(mi.GetCustomAttribute<NamedAttribute>());
+            NamedAttribute attr = Ensure.NotNull(mi.GetCustomAttribute<NamedAttribute>());
 
             return attr.Names ?? new[]
                        {GetDefaultName(mi, attr)};
         }
+
 
         private string GetDefaultName(MemberInfo mi, NamedAttribute attr)
         {

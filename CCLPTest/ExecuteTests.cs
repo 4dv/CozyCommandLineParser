@@ -19,9 +19,9 @@ namespace CCLPTest
         public void TestCommandWithOptions()
         {
             TestCommands instance = TestCommandLine(
-                new[] {"commandWithArgs", "--stringOption=abcde", "--intOption=42", "-b", "posArg"},
+                new[] {"commandWithArgs", "--stringOption=abcde", "-b", "--intOption=42", "posArg"},
                 nameof(TestCommands.SomeCommandWithArgs),
-                new object[] {"posArg"});
+                new object[] {"posArg", 42});
 
             Assert.AreEqual("abcde", instance.StringOption);
             Assert.AreEqual(42, instance.IntOption);
