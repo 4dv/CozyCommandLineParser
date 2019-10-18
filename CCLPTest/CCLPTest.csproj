@@ -46,11 +46,10 @@
   <ItemGroup>
     <Compile Include="AnotherTestCommands.cs" />
     <Compile Include="CommandsSearcherTests.cs" />
-    <Compile Include="TestBase.cs" />
     <Compile Include="TestCommands.cs" />
     <Compile Include="LetterCaseConverterTests.cs" />
     <Compile Include="MultiPassEnumeratorTests.cs" />
-    <Compile Include="Tests.cs" />
+    <Compile Include="ExecuteTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

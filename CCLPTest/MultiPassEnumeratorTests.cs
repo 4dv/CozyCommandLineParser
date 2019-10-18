@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace CCLPTest
 {
-    public class MultiPassEnumeratorTests : TestBase
+    public class MultiPassEnumeratorTests
     {
         [Test]
         public void MultiPassTest()

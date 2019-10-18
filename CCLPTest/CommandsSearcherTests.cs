@@ -9,7 +9,7 @@ using NUnit.Framework;
 namespace CCLPTest
 {
 
-    public class CommandsSearcherTests : TestBase
+    public class CommandsSearcherTests
     {
         [Test]
         public void SearchTest()

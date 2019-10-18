@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace CCLPTest
 {
-    public class Tests : TestBase
+    public class ExecuteTests
     {
         private TestCommands TestCommandLine(string[] args, string expectedExecutedMethod, object[] expectedCommandArgs)
         {
@@ -16,10 +16,10 @@ namespace CCLPTest
         }
 
         [Test]
-        public void Test1()
+        public void TestCommandWithOptions()
         {
             TestCommands instance = TestCommandLine(
-                new[] {"commandWithArgs", "--stringOption='abcde'", "--intOption=42", "-b", "posArg"},
+                new[] {"commandWithArgs", "--stringOption=abcde", "--intOption=42", "-b", "posArg"},
                 nameof(TestCommands.SomeCommandWithArgs),
                 new object[] {"posArg"});
 
