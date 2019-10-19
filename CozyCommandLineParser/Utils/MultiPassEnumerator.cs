@@ -45,7 +45,7 @@ namespace CozyCommandLineParser.Utils
 
             currentPos++;
             saveCurrentToNextPass = SaveCurrentToNextPassDefault;
-            Current = IsPassFinished ? default : values[currentPos];
+            Current = IsPassFinished ? default(T) : values[currentPos];
             return !IsPassFinished;
         }
 
@@ -69,7 +69,7 @@ namespace CozyCommandLineParser.Utils
             values = valuesForNextPass;
             valuesForNextPass = new List<T>();
             currentPos = INITIAL_POS;
-            Current = default;
+            Current = default(T);
         }
 
         /// <summary>

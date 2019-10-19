@@ -6,10 +6,11 @@ namespace CCLPTest
 {
     public class ExecuteTests
     {
-        private TestCommands TestCommandLine(string[] args, string expectedExecutedMethod, object[] expectedCommandArgs)
+        private TestCommands TestCommandLine(string[] args, string expectedExecutedMethod, object[] expectedCommandArgs,
+            object result = null)
         {
             var commandLine = new CommandLine();
-            commandLine.Execute(args);
+            Assert.AreEqual(result, commandLine.Execute(args));
             var instance = (TestCommands) commandLine.LastCommandInstance;
             instance.CheckLastExecutedCommand(expectedExecutedMethod, expectedCommandArgs);
             return instance;
@@ -52,7 +53,14 @@ namespace CCLPTest
         public void TestSimpleCommand()
         {
             TestCommandLine(new[] {"simpleCommand"}, nameof(TestCommands.SimpleCommand),
-                new object[] { });
+                new object[] { }, 10);
+        }
+
+        [Test]
+        public void TestAnotherSimpleCommand()
+        {
+            var commandLine = new CommandLine();
+            Assert.AreEqual(3.14, commandLine.Execute(new string[]{"anotherCommand"}));
         }
     }
 }

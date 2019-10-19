@@ -5,9 +5,9 @@ namespace AnotherCCLPTest
     public class AnotherTestCommands
     {
         [Command(Description = "Another command")]
-        public int AnotherCommand()
+        public double AnotherCommand()
         {
-            return 22;
+            return 3.14;
         }
     }
 }
