@@ -27,6 +27,19 @@ namespace CCLPTest
             Assert.AreEqual("abcde", instance.StringOption);
             Assert.AreEqual(42, instance.IntOption);
             Assert.IsTrue(instance.BoolOption);
+            
+            var ex = Assert.Throws<CommandLineException>(() => TestCommandLine(
+                new[] {"commandWithArgs", "--intOption=23", "--intOption=231"},
+                nameof(TestCommands.SomeCommandWithArgs),
+                new object[] {"posArg", 42}));
+
+            Assert.AreEqual("Property --intOption was already set with name --intOption",
+                ex.Message);
+
+            TestCommandLine(
+                new[] {"commandWithArgs", "--intOption=23", "--", "--intOption=231"},
+                nameof(TestCommands.SomeCommandWithArgs),
+                new object[] {"--intOption=231", 42});
         }
 
         [Test]

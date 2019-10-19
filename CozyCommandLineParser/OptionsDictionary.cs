@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
 using Checkers;
@@ -19,6 +20,7 @@ namespace CozyCommandLineParser
         public void FillProperties(object instance, MultiPassEnumerator<string> argsEnumerator)
         {
             var nameValSplit = new char[] {'='};
+            var setProperties = new Dictionary<PropertyInfo, string>();
             foreach (string arg in argsEnumerator)
             {
                 if (arg == options.EndOfNamedOptions)
@@ -33,10 +35,13 @@ namespace CozyCommandLineParser
                 {
                     var pi = Ensure.NotNull(mi as PropertyInfo);
                     object value;
+                    if(setProperties.TryGetValue(pi, out var prevName))
+                        CommandLine.Error($"Property {name} was already set with name {prevName}");
                     if (pi.PropertyType == typeof(bool) && ar.Length == 1)
                         value = true;
                     else value = ConvertToType(valueStr, pi.PropertyType);
                     pi.SetValue(instance, value);
+                    setProperties[pi] = name;
                 }
                 else
                 {
