@@ -9,7 +9,7 @@ using CozyCommandLineParser.Helpers;
 
 namespace CozyCommandLineParser
 {
-    public class CommandsDictionary : MembersDict
+    public class CommandsDictionary : MembersDictionaryBase
     {
 //        private readonly Dictionary<string, MethodInfo> commandsDic;
         private MethodInfo defaultCommand;

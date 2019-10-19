@@ -9,7 +9,7 @@ using CozyCommandLineParser.Utils;
 
 namespace CozyCommandLineParser
 {
-    public class OptionsDictionary : MembersDict
+    public class OptionsDictionary : MembersDictionaryBase
     {
         public OptionsDictionary(Type type, ParserOptions options) : base(options)
         {

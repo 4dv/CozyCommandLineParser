@@ -8,13 +8,13 @@ using CozyCommandLineParser.Utils;
 
 namespace CozyCommandLineParser
 {
-    public class MembersDict
+    public class MembersDictionaryBase
     {
         protected readonly ParserOptions options;
         private LetterCaseConverter converter;
         protected Dictionary<string, MemberInfo> membersDict;
 
-        public MembersDict(ParserOptions options)
+        public MembersDictionaryBase(ParserOptions options)
         {
             this.options = options;
             converter = new LetterCaseConverter(options.DefaultNameConvention);
