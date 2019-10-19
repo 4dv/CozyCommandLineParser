@@ -55,7 +55,7 @@ namespace CozyCommandLineParser
         {
             var attr = Ensure.NotNull(attr0 as CommandAttribute);
 
-            return name + ":" + (attr.IsDefault ? "Default. " : "") + attr.Description;
+            return $"   {name:12} " + (attr.IsDefault ? "Default. " : "") + attr.Description;
         }
 
     }

@@ -5,8 +5,8 @@ using NUnit.Framework;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("CCLPTest")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("CozyCommandLineParser Tests")]
+[assembly: AssemblyDescription("Tests to check that everything works as it should")]
 [assembly: AssemblyConfiguration("")]
 [assembly: AssemblyCompany("")]
 [assembly: AssemblyProduct("CCLPTest")]

@@ -36,7 +36,7 @@ namespace CozyCommandLineParser
                 var mi = cmdPair.Value;
                 var attr = Ensure.NotNull(mi.GetCustomAttribute<NamedAttribute>());
 
-                sb.AppendLine(string.Join(" ", GetItemDescription(cmdPair.Key, attr)));
+                sb.AppendLine(GetItemDescription(cmdPair.Key, attr));
             }
 
             return sb.ToString();
@@ -44,9 +44,8 @@ namespace CozyCommandLineParser
 
         protected virtual string GetItemDescription(string name, NamedAttribute attr)
         {
-            return name + ": " + attr.Description;
+            return $"   {name:12} {attr.Description}";
         }
-
 
         protected virtual string GetDefaultName(MemberInfo mi, NamedAttribute attr)
         {

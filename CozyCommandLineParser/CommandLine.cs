@@ -23,20 +23,19 @@ namespace CozyCommandLineParser
         /// </summary>
         public CommandLine(ParserOptions options = null)
         {
-            this.options = options = options ?? new ParserOptions();
+            this.options = options = options ?? new ParserOptions(Assembly.GetCallingAssembly());
 
             List<Type> types = CommandsSearcher.FindAllTypes(options, Assembly.GetCallingAssembly());
             commandsDic = new CommandsDictionary(types, options);
         }
 
-        public string HelpHeader { get; set; }
 
         public object LastCommandInstance { get; private set; }
 
 
         public void PrintHelp()
         {
-            Console.WriteLine(HelpHeader);
+            Console.Write(options.HelpHeader);
             Console.WriteLine(commandsDic.GetDescriptions());
         }
 
