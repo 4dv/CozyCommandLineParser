@@ -16,7 +16,8 @@ namespace CozyCommandLineParser
 
         public CommandsDictionary(IEnumerable<Type> types, ParserOptions options) : base(options)
         {
-            List<MethodInfo> commands = types.SelectMany(t => t.GetMethods()
+            List<MethodInfo> commands = types.SelectMany(t => t
+                .GetMethods(BindingFlags.DeclaredOnly | BindingFlags.Public | BindingFlags.Instance)
                 .Where(m => m.GetCustomAttribute<CommandAttribute>() != null)).ToList();
 
             CreateNamesDict(commands);

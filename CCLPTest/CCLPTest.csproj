@@ -54,6 +54,10 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <ProjectReference Include="..\Checkers\Checkers.csproj">
+      <Project>{85f35b90-8158-4dda-904a-3841a878551e}</Project>
+      <Name>Checkers</Name>
+    </ProjectReference>
     <ProjectReference Include="..\CozyCommandLineParser\CozyCommandLineParser.csproj">
       <Project>{c42f1b0f-3498-4979-bd33-76e44715c8d5}</Project>
       <Name>CozyCommandLineParser</Name>

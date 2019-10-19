@@ -1,4 +1,6 @@
 ﻿using System.Threading;
+using AnotherCCLPTest;
+using Checkers;
 using CozyCommandLineParser;
 using NUnit.Framework;
 
@@ -81,6 +83,18 @@ namespace CCLPTest
         {
             TestCommandLine(new[] {"commandWithIntParams", "22", "3", "2"}, nameof(TestCommands.CommandWithIntParams),
                 new object[] {22, new[] {3, 2}});
+        }
+
+        [Test]
+        public void TestDerivativeCommand()
+        {
+            var commandLine = new CommandLine();
+
+            commandLine.Execute(new[] {"derivativeCommand", "--intInDerivative=22", "--anotherInt=12"});
+            var instance = Ensure.NotNull(commandLine.LastCommandInstance as AnotherTestCommandsDerived);
+
+            Assert.AreEqual(22, instance.IntInDerivative);
+            Assert.AreEqual(12, instance.AnotherInt);
         }
 
         [Test]
