@@ -6,6 +6,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CCLPTest", "CCLPTest\CCLPTe
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Checkers", "Checkers\Checkers.csproj", "{85F35B90-8158-4DDA-904A-3841A878551E}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleProject", "SampleProject\SampleProject.csproj", "{2FD3A89C-1235-4F35-ABF1-91A7AC7A9D77}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -24,5 +26,9 @@ Global
 		{85F35B90-8158-4DDA-904A-3841A878551E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{85F35B90-8158-4DDA-904A-3841A878551E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{85F35B90-8158-4DDA-904A-3841A878551E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{2FD3A89C-1235-4F35-ABF1-91A7AC7A9D77}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{2FD3A89C-1235-4F35-ABF1-91A7AC7A9D77}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{2FD3A89C-1235-4F35-ABF1-91A7AC7A9D77}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{2FD3A89C-1235-4F35-ABF1-91A7AC7A9D77}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

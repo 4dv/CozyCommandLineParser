@@ -54,9 +54,8 @@ namespace CozyCommandLineParser
         protected override string GetItemDescription(string name, NamedAttribute attr0)
         {
             var attr = Ensure.NotNull(attr0 as CommandAttribute);
-
-            return $"   {name:12} " + (attr.IsDefault ? "Default. " : "") + attr.Description;
+// todo make formatting more flexible
+            return $"  {name,-17} " + (attr.IsDefault ? "Default. " : "") + attr.Description;
         }
-
     }
 }

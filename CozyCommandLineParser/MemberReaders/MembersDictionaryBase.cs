@@ -44,7 +44,7 @@ namespace CozyCommandLineParser
 
         protected virtual string GetItemDescription(string name, NamedAttribute attr)
         {
-            return $"   {name:12} {attr.Description}";
+            return $"  {name,-17} {attr.Description}";
         }
 
         protected virtual string GetDefaultName(MemberInfo mi, NamedAttribute attr)
