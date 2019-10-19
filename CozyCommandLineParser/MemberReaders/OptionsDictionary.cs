@@ -62,14 +62,38 @@ namespace CozyCommandLineParser
             argsEnumerator.Reset();
             object[] res = methodInfo.GetParameters()
                 .Select(pi =>
-                    argsEnumerator.MoveNext() ? ConvertToType(argsEnumerator.Current, pi.ParameterType) : Type.Missing)
-                .ToArray();
+                    CreateParameterValue(argsEnumerator, pi)).ToArray();
 
             if (argsEnumerator.MoveNext() || !argsEnumerator.IsAllFinished)
             {
                 argsEnumerator.SaveCurrentToNextPass();
                 CommandLine.Error("Get more arguments, than expected by function, excessive arguments: [" +
                                   string.Join(",", argsEnumerator) + ']');
+            }
+
+            return res;
+        }
+
+        private object CreateParameterValue(MultiPassEnumerator<string> argsEnumerator, ParameterInfo pi)
+        {
+            if(!argsEnumerator.MoveNext())
+                return Type.Missing;
+            if (pi.GetCustomAttribute<ParamArrayAttribute>() == null)
+                return ConvertToType(argsEnumerator.Current, pi.ParameterType);
+            var elType = Ensure.NotNull(pi.ParameterType.GetElementType());
+            argsEnumerator.SaveCurrentToNextPass();
+            var ar = argsEnumerator.ToArray();
+
+            return CreateArray(elType, ar);
+        }
+
+        private object CreateArray(Type elType, string[] source)
+        {
+            Array res = Array.CreateInstance(elType, source.Length);
+            for (var i = 0; i < source.Length; i++)
+            {
+                object value = ConvertToType(source[i], elType);
+                res.SetValue(value, i);
             }
 
             return res;

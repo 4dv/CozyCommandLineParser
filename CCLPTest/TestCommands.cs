@@ -40,10 +40,24 @@ namespace CCLPTest
         }
 
         // if command arguments doesn't have any attributes, they work as positional arguments
-        [Command("commandWithArgs", "This command has one string argument'")]
+        [Command("commandWithArgs", "This command has one string argument")]
         public void SomeCommandWithArgs(string arg = "abc", int arg2 = 42)
         {
             CommandExecuted(new object[] {arg, arg2});
+        }
+
+        // if command arguments doesn't have any attributes, they work as positional arguments
+        [Command("commandWithParams", "This command can have any number of arguments")]
+        public void SomeCommandWithParams(int num = 11, params string[] otherArgs)
+        {
+            CommandExecuted(new object[] {num, otherArgs});
+        }
+
+        // if command arguments doesn't have any attributes, they work as positional arguments
+        [Command(Description = "This command can have any number of int arguments")]
+        public void CommandWithIntParams(int num = 11, params int[] otherArgs)
+        {
+            CommandExecuted(new object[] {num, otherArgs});
         }
 
 

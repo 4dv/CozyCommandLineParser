@@ -70,6 +70,20 @@ namespace CCLPTest
         }
 
         [Test]
+        public void TestCommandWithParams()
+        {
+            TestCommandLine(new[] {"commandWithParams", "22", "a", "b", "c"}, nameof(TestCommands.SomeCommandWithParams),
+                new object[] { 22, new[]{"a", "b", "c"}});
+        }
+
+        [Test]
+        public void TestCommandWithIntParams()
+        {
+            TestCommandLine(new[] {"commandWithIntParams", "22", "3", "2"}, nameof(TestCommands.CommandWithIntParams),
+                new object[] {22, new[] {3, 2}});
+        }
+
+        [Test]
         public void TestAnotherSimpleCommand()
         {
             var commandLine = new CommandLine();
