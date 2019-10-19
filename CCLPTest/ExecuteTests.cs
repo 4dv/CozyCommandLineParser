@@ -86,14 +86,14 @@ namespace CCLPTest
         }
 
         [Test]
-        public void TestDerivativeCommand()
+        public void TestDerivedCommand()
         {
             var commandLine = new CommandLine();
 
-            commandLine.Execute(new[] {"derivativeCommand", "--intInDerivative=22", "--anotherInt=12"});
+            commandLine.Execute(new[] {"derivedCommand", "--intInDerived=22", "--anotherInt=12"});
             var instance = Ensure.NotNull(commandLine.LastCommandInstance as AnotherTestCommandsDerived);
 
-            Assert.AreEqual(22, instance.IntInDerivative);
+            Assert.AreEqual(22, instance.IntInDerived);
             Assert.AreEqual(12, instance.AnotherInt);
         }
 

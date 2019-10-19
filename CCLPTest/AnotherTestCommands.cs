@@ -18,10 +18,10 @@ namespace AnotherCCLPTest
     public class AnotherTestCommandsDerived : AnotherTestCommands
     {
         [Option]
-        public int IntInDerivative { get; set; }
+        public int IntInDerived { get; set; }
 
         [Command(Description = "Command in derivative")]
-        public double DerivativeCommand()
+        public double DerivedCommand()
         {
             return 321;
         }
