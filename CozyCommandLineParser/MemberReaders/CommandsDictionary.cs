@@ -40,12 +40,9 @@ namespace CozyCommandLineParser
 
             if (attr.IsDefault)
             {
-                if (defaultCommand != null)
-                    CommandLine.Error(
-                        $"Only one default command is allowed, {GetFirstName(defaultCommand)} " +
-                        $"and {GetFirstName(mi)} both set as default");
-
-                defaultCommand = mi;
+                defaultCommand = OverwriteDefaultIfExists(mi, defaultCommand,
+                    () => $"Only one default command is allowed, {GetFirstName(defaultCommand)} " +
+                    $"and {GetFirstName(mi)} both set as default") as MethodInfo;
             }
 
             base.ProcessMemberInfo(mi, attr);

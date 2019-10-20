@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
@@ -65,9 +66,6 @@ namespace CozyCommandLineParser
         public void CreateNamesDict(IEnumerable<MemberInfo> members)
         {
             membersDict = new Dictionary<string, MemberInfo>();
-            allMembers = new HashSet<MemberInfo>();
-
-            Assembly libAssembly = typeof(MembersDictionaryBase).Assembly;
 
             foreach (MemberInfo mi in members)
             {
@@ -80,21 +78,30 @@ namespace CozyCommandLineParser
 
                 foreach (string name in names)
                 {
-                    if (membersDict.TryGetValue(name, out var existingMember))
-                    {
-                        // todo DimaCh test overwrite works as expected
-                        // overwrite if the existing command is from our assembly
-                        if (existingMember.DeclaringType?.Assembly == libAssembly)
-                            allMembers.Remove(existingMember);
-                        else if (mi.DeclaringType?.Assembly == libAssembly)
-                            continue; // new type is from our assembly, don't do anything
-                        CommandLine.Error($"More than one member is registered with the same name: '{name}'");
-                    }
+                    membersDict.TryGetValue(name, out var existingMember);
 
-                    membersDict[name] = mi;
-                    allMembers.Add(mi);
+                    membersDict[name] = OverwriteDefaultIfExists(mi, existingMember,
+                        () => $"More than one member is registered with the same name: '{name}'");
                 }
             }
+
+            allMembers = new HashSet<MemberInfo>(membersDict.Values);
+        }
+
+        protected MemberInfo OverwriteDefaultIfExists(MemberInfo mi, MemberInfo oldValue, Func<string> onClashError)
+        {
+            if (oldValue == null)
+                return mi;
+            Assembly libAssembly = typeof(MembersDictionaryBase).Assembly;
+
+            if (oldValue.DeclaringType?.Assembly == libAssembly)
+                return mi;
+
+            if (mi.DeclaringType?.Assembly == libAssembly)
+                return oldValue;
+
+            CommandLine.Error(onClashError.Invoke());
+            return null;
         }
 
         protected virtual void ProcessMemberInfo(MemberInfo mi, NamedAttribute attr)

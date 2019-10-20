@@ -38,7 +38,7 @@ namespace CozyCommandLineParser
             Console.WriteLine(Commands.GetDescriptions());
         }
 
-        [Command("-v|--version|version", "Prints program version")]
+        [Command("--version|version", "Prints program version")]
         public void PrintVersion()
         {
             Console.Write(Options.VersionInfo);
@@ -65,6 +65,7 @@ namespace CozyCommandLineParser
 
             LastCommandInstance = instance;
 
+            // todo DimaCh add meaningful message if we don't have enough arguments for the command
             return methodInfo.Invoke(instance, parameters);
         }
 
