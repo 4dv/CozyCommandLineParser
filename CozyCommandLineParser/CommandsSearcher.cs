@@ -9,9 +9,10 @@ namespace CozyCommandLineParser
 {
     public class CommandsSearcher
     {
-        public static List<Type> FindAllTypes(ParserOptions options, Assembly defaultAssembly)
+        public static List<Type> FindAllTypes(ParserOptions options, Assembly defaultAssembly,
+            params Type[] additionalTypes)
         {
-            var allTypes = new List<Type>();
+            var allTypes = new List<Type>(additionalTypes);
 
             IReadOnlyList<Type> types = options.SearchInTypes;
             if (types != null) allTypes.AddRange(types);

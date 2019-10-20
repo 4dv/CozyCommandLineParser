@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Reflection;
 using Checkers;
+using CozyCommandLineParser.Attributes;
 using CozyCommandLineParser.Helpers;
 using CozyCommandLineParser.Utils;
 
@@ -9,10 +10,9 @@ namespace CozyCommandLineParser
 {
     public class CommandLine
     {
-        private readonly ParserOptions options;
+        protected readonly ParserOptions Options;
 
-        // CommandName => CommandMethod
-        private readonly CommandsDictionary commandsDic;
+        protected readonly CommandsDictionary Commands;
 
         /// <summary>
         /// if types is not null, commands will be taken from those types
@@ -23,27 +23,32 @@ namespace CozyCommandLineParser
         /// </summary>
         public CommandLine(ParserOptions options = null)
         {
-            this.options = options = options ?? new ParserOptions(Assembly.GetCallingAssembly());
+            this.Options = options = options ?? new ParserOptions(Assembly.GetCallingAssembly());
 
-            List<Type> types = CommandsSearcher.FindAllTypes(options, Assembly.GetCallingAssembly());
-            commandsDic = new CommandsDictionary(types, options);
+            List<Type> types = CommandsSearcher.FindAllTypes(options, Assembly.GetCallingAssembly(), this.GetType());
+            Commands = new CommandsDictionary(types, options);
         }
-
 
         public object LastCommandInstance { get; private set; }
 
-
-        public void PrintHelp()
+        [Command("-h|--help|help", "Prints help, use `help <COMMAND>` to get a help for specific command", IsDefault = true)]
+        public void PrintHelp(string command = null)
         {
-            Console.Write(options.HelpHeader);
-            Console.WriteLine(commandsDic.GetDescriptions());
+            Console.Write(Options.HelpHeader);
+            Console.WriteLine(Commands.GetDescriptions());
+        }
+
+        [Command("-v|--version|version", "Prints program version")]
+        public void PrintVersion()
+        {
+            Console.Write(Options.VersionInfo);
         }
 
 
         public object Execute(string[] args)
         {
             var argsEnumerator = new MultiPassEnumerator<string>(args);
-            MethodInfo methodInfo = commandsDic.GetMatchingMethod(argsEnumerator.GetNext());
+            MethodInfo methodInfo = Commands.GetMatchingMethod(argsEnumerator.GetNext());
             if (methodInfo == null)
             {
                 PrintHelp();
@@ -52,8 +57,9 @@ namespace CozyCommandLineParser
 
             Type type = Ensure.NotNull(methodInfo.DeclaringType);
 
-            object instance = Activator.CreateInstance(type);
-            var optionsDictionary = new OptionsDictionary(type, options);
+            object instance = type == this.GetType() ? this : Activator.CreateInstance(type);
+
+            var optionsDictionary = new OptionsDictionary(type, Options);
             optionsDictionary.FillProperties(instance, argsEnumerator);
             object[] parameters = optionsDictionary.CreateParameters(methodInfo, argsEnumerator);
 

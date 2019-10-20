@@ -11,7 +11,6 @@ namespace CozyCommandLineParser
 {
     public class CommandsDictionary : MembersDictionaryBase
     {
-//        private readonly Dictionary<string, MethodInfo> commandsDic;
         private MethodInfo defaultCommand;
 
         public CommandsDictionary(IEnumerable<Type> types, ParserOptions options) : base(options)

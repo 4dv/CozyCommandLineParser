@@ -17,14 +17,20 @@ namespace CozyCommandLineParser
 
             HelpHeader = sb.ToString();
 
-            /*asm = asm ?? Assembly.GetCallingAssembly();
-            var description = asm.GetCustomAttribute<AssemblyDescriptionAttribute>()?.Description;
-            var title = asm.GetCustomAttribute<AssemblyTitleAttribute>()?.Title;
-            var version = asm.GetCustomAttribute<AssemblyVersionAttribute>()?.Version;
-            HelpHeader = $"{title} {version}";
-            if(!string.IsNullOrWhiteSpace(HelpHeader) && !string.IsNullOrWhiteSpace(description))
-                HelpHeader += Environment.NewLine + $"{description}";*/
+            CallingAssembly = asm ?? Assembly.GetCallingAssembly();
+
+            var description = CallingAssembly.GetCustomAttribute<AssemblyDescriptionAttribute>()?.Description;
+            var title = CallingAssembly.GetCustomAttribute<AssemblyTitleAttribute>()?.Title;
+            var version = CallingAssembly.GetCustomAttribute<AssemblyVersionAttribute>()?.Version;
+            VersionInfo = $"{title} {version}";
+            if(!string.IsNullOrWhiteSpace(VersionInfo) && !string.IsNullOrWhiteSpace(description))
+                HelpHeader += Environment.NewLine + $"{description}";
         }
+
+        public string VersionInfo { get; set; }
+
+        public Assembly CallingAssembly { get; }
+
         public NameConventions DefaultNameConvention { get; set; } = NameConventions.CamelCase;
 
         public string DefaultOptionLongPrefix { get; set; } = "--";
