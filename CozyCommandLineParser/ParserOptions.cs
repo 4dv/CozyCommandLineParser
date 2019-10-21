@@ -19,12 +19,12 @@ namespace CozyCommandLineParser
 
             CallingAssembly = asm ?? Assembly.GetCallingAssembly();
 
-            var description = CallingAssembly.GetCustomAttribute<AssemblyDescriptionAttribute>()?.Description;
+            /*var description = CallingAssembly.GetCustomAttribute<AssemblyDescriptionAttribute>()?.Description;
             var title = CallingAssembly.GetCustomAttribute<AssemblyTitleAttribute>()?.Title;
             var version = CallingAssembly.GetCustomAttribute<AssemblyVersionAttribute>()?.Version;
             VersionInfo = $"{title} {version}";
             if(!string.IsNullOrWhiteSpace(VersionInfo) && !string.IsNullOrWhiteSpace(description))
-                HelpHeader += Environment.NewLine + $"{description}";
+                HelpHeader += Environment.NewLine + $"{description}";*/
         }
 
         public string VersionInfo { get; set; }

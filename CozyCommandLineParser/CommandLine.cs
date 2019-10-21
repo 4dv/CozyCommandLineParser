@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Reflection;
 using Checkers;
 using CozyCommandLineParser.Attributes;
-using CozyCommandLineParser.Helpers;
 using CozyCommandLineParser.Utils;
 
 namespace CozyCommandLineParser
@@ -35,7 +34,7 @@ namespace CozyCommandLineParser
         public void PrintHelp(string command = null)
         {
             Console.Write(Options.HelpHeader);
-            Console.WriteLine(Commands.GetDescriptions());
+            Console.Write(Commands.GetDescriptions());
         }
 
         [Command("--version|version", "Prints program version")]

@@ -46,6 +46,7 @@
   <ItemGroup>
     <Compile Include="AnotherTestCommands.cs" />
     <Compile Include="CommandsSearcherTests.cs" />
+    <Compile Include="ConsoleRedirect.cs" />
     <Compile Include="PrintHelpTests.cs" />
     <Compile Include="TestCommands.cs" />
     <Compile Include="LetterCaseConverterTests.cs" />
