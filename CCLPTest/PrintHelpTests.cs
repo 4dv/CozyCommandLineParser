@@ -6,37 +6,47 @@ using NUnit.Framework;
 
 namespace CCLPTest
 {
-    // redirect output in the test, can not parallel it with others
-    [Parallelizable(ParallelScope.None)]
     public class PrintHelpTests
     {
         [Test]
         public void PrintCommandsListTest()
         {
-            using (var console = new ConsoleRedirect() )
-            {
-                var commandLine = new CommandLine();
+            var commandLine = new CommandLine();
+            commandLine.Execute(new string[] {"help"});
+            Assert.AreEqual(commandLine, commandLine.LastCommandInstance);
 
-                commandLine.Execute(new string[0]);
+            commandLine = new CommandLine();
+            commandLine.Execute(new string[] {});
+            Assert.AreEqual(commandLine, commandLine.LastCommandInstance);
 
-                var expected = @"Usage: Tests: CCLPTest [COMMAND] [OPTIONS...]
+            var answer = commandLine.GetHelp(null);
+
+            var expected = @"Usage: Tests: CCLPTest [COMMAND] [OPTIONS...]
 
 Available commands:
   -h|--help|help    Default. Prints help, use `help <COMMAND>` to get a help for specific command
   --version|version Prints program version
-  anotherCommand    Another command
-  derivedCommand    Command in derivative
+  anotherCommand    Another command description
+  derivedCommand    Command in derived class
   simpleCommand     Simple command to run
   commandWithArgs   This command has one string argument
   commandWithParams This command can have any number of arguments
   commandWithIntParams This command can have any number of int arguments
 ";
-                console.CheckLastOutput(expected);
+            Assert.AreEqual(expected, answer);
+        }
 
-                commandLine.Execute(new string[]{"help"});
-                console.CheckLastOutput(expected);
+        [Test]
+        public void PrintCommandHelpTest()
+        {
+            var commandLine = new CommandLine();
 
-            }
+            var answer = commandLine.GetHelp("anotherCommand");
+            var expected = @"anotherCommand    Another command description
+  --anotherInt      Int argument
+";
+            Assert.AreEqual(expected, answer);
+
         }
     }
 }

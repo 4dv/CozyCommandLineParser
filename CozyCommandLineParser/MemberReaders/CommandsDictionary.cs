@@ -29,7 +29,7 @@ namespace CozyCommandLineParser
             if (membersDict.TryGetValue(cmd, out var mi))
                 return Ensure.NotNull(mi as MethodInfo);
 
-            CommandLine.Error($"Command {cmd} is not found");
+            CommandLine.Error($"Command '{cmd}' is not found");
             return null;
         }
 

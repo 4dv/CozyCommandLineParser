@@ -7,6 +7,7 @@ namespace CCLPTest
     public class ConsoleRedirect : IDisposable
     {
         private TextWriter oldOut;
+        public TextWriter OriginalOutput => oldOut;
         private StringWriter writer;
 
         public ConsoleRedirect()
@@ -16,9 +17,17 @@ namespace CCLPTest
             Console.SetOut(writer);
         }
 
+        public string Output => writer.ToString();
+
         public void CheckLastOutput(string expected)
         {
-            Assert.AreEqual(expected, writer.ToString());
+            string actual = writer.ToString();
+            ClearOutput();
+            Assert.AreEqual(expected, actual);
+        }
+
+        public void ClearOutput()
+        {
             writer.GetStringBuilder().Clear();
         }
 

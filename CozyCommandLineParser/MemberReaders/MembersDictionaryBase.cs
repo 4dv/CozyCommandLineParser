@@ -30,20 +30,24 @@ namespace CozyCommandLineParser
                        {GetDefaultName(mi, attr)};
         }
 
-        public string GetDescriptions()
+        public string GetAllDescriptions()
         {
             var sb = new StringBuilder();
             foreach (var mi in allMembers)
             {
-                NamedAttribute attr = Ensure.NotNull(mi.GetCustomAttribute<NamedAttribute>());
-
-                var names = GetNames(mi).ToList();
-                var namesStr = string.Join("|", names);
-
-                sb.AppendLine(GetItemDescription(namesStr, attr));
+                sb.AppendLine(GetDescription(mi));
             }
 
             return sb.ToString();
+        }
+
+        public string GetDescription(MemberInfo mi)
+        {
+            NamedAttribute attr = Ensure.NotNull(mi.GetCustomAttribute<NamedAttribute>());
+
+            var names = GetNames(mi).ToList();
+            var namesStr = string.Join("|", names);
+            return GetItemDescription(namesStr, attr);
         }
 
         protected virtual string GetItemDescription(string name, NamedAttribute attr)

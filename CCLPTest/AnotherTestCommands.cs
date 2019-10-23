@@ -4,14 +4,14 @@ namespace AnotherCCLPTest
 {
     public class AnotherTestCommands
     {
-        [Option]
+        [Option(Description = "Int argument")]
         public int AnotherInt { get; set; }
 
 
-        [Command(Description = "Another command")]
-        public double AnotherCommand()
+        [Command(Description = "Another command description")]
+        public double AnotherCommand(int val = 0)
         {
-            return 3.14;
+            return val + 3.14;
         }
     }
 
@@ -20,7 +20,7 @@ namespace AnotherCCLPTest
         [Option]
         public int IntInDerived { get; set; }
 
-        [Command(Description = "Command in derivative")]
+        [Command(Description = "Command in derived class")]
         public double DerivedCommand()
         {
             return 321;

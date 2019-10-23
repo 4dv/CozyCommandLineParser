@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Reflection;
+using System.Text;
 using Checkers;
 using CozyCommandLineParser.Attributes;
 using CozyCommandLineParser.Utils;
@@ -30,11 +31,34 @@ namespace CozyCommandLineParser
 
         public object LastCommandInstance { get; private set; }
 
-        [Command("-h|--help|help", "Prints help, use `help <COMMAND>` to get a help for specific command", IsDefault = true)]
+
+        [Command("-h|--help|help", "Prints help, use `help <COMMAND>` to get a help for specific command",
+            IsDefault = true)]
         public void PrintHelp(string command = null)
         {
-            Console.Write(Options.HelpHeader);
-            Console.Write(Commands.GetDescriptions());
+            Console.WriteLine(GetHelp(command));
+        }
+
+        public string GetHelp(string command)
+        {
+            var sb = new StringBuilder();
+            if (command == null)
+            {
+                sb.Append(Options.HelpHeader);
+                sb.Append(Commands.GetAllDescriptions());
+            }
+            else
+            {
+                var methodInfo = Commands.GetMatchingMethod(command);
+                sb.AppendLine(Commands.GetDescription(methodInfo).Trim());
+
+                Type type = Ensure.NotNull(methodInfo.DeclaringType);
+
+                var optionsDictionary = new OptionsDictionary(type, Options);
+                sb.Append(optionsDictionary.GetAllDescriptions());
+            }
+
+            return sb.ToString();
         }
 
         [Command("--version|version", "Prints program version")]
@@ -56,6 +80,7 @@ namespace CozyCommandLineParser
 
             Type type = Ensure.NotNull(methodInfo.DeclaringType);
 
+            // don't create instance for our default commands, we already have it
             object instance = type == this.GetType() ? this : Activator.CreateInstance(type);
 
             var optionsDictionary = new OptionsDictionary(type, Options);
