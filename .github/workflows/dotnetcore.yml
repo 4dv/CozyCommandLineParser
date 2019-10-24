@@ -9,9 +9,9 @@ jobs:
 
     steps:
     - name: test ls
-      run ls
+      run: ls
     - name: save in var
-      run pwd
+      run: pwd
     - uses: actions/checkout@v1
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
