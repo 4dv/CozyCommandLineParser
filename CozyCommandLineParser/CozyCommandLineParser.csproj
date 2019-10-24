@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <PackageVersion>0.1.0.2</PackageVersion>
+        <PackageVersion>0.1.0.3</PackageVersion>
         <Title>Cozy Command Line Parser</Title>
         <PackageProjectUrl>https://github.com/4dv/CozyCommandLineParser</PackageProjectUrl>
         <RepositoryUrl>https://github.com/4dv/CozyCommandLineParser</RepositoryUrl>
