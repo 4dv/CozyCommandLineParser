@@ -8,8 +8,13 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: test ls
-      run: ls
+    - name: shell
+      run: |
+        echo "HOME=$HOME GITHUB_WORKFLOW=$GITHUB_WORKFLOW GITHUB_ACTION=$GITHUB_ACTION GITHUB_ACTOR=$GITHUB_ACTOR GITHUB_REPOSITORY=$GITHUB_REPOSITORY GITHUB_EVENT_NAME=$GITHUB_EVENT_NAME GITHUB_EVENT_PATH=$GITHUB_EVENT_PATH GITHUB_WORKSPACE=$GITHUB_WORKSPACE GITHUB_SHA=$GITHUB_SHA GITHUB_REF=$GITHUB_REF"
+        ls
+        ls ..
+        ls ../..
+        ./Scripts/publish.sh
     - name: save in var
       run: pwd
     - uses: actions/checkout@v1
