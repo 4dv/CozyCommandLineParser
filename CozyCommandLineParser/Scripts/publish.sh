@@ -37,6 +37,7 @@ if [[ -z "$gitOutput" ]]; then
       "sha": "$commit"
     }
 EOF
+    dotnet nuget push $latest -k "$GITHUB_TOKEN" -s https://nuget.pkg.github.com/4dv/index.json
 
 else
     echo "tag already exist"
