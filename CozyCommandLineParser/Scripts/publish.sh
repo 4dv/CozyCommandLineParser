@@ -13,12 +13,31 @@ fi
 
 tagName="release/$version"
 gitOutput=$(git tag -l "$tagName")
-echo "'$gitOutput'"
 
+# if such tag is not exist
 if [[ -z "$gitOutput" ]]; then
     echo "new version $version was found, set tag and publish release"
     git tag $tagName || exit 1
-    git push --tags || exit 1
+#    git push --tags || exit 1
+
+    # get repo name from git
+    remote=$(git config --get remote.origin.url)
+    repo=$(basename $remote .git)
+
+    commit=$(git rev-parse HEAD)
+
+    echo "'$remote' '$repo'"
+
+    # POST a new ref to repo via Github API
+    curl -s -X POST https://api.github.com/repos/4dv/$repo/git/refs \
+    -H "Authorization: token $GITHUB_TOKEN" \
+    -d @- << EOF
+    {
+      "ref": "refs/tags/$tagName",
+      "sha": "$commit"
+    }
+EOF
+
 else
     echo "tag already exist"
 fi
