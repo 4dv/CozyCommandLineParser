@@ -17,3 +17,11 @@ jobs:
       run: dotnet build --configuration Release
     - name: Run tests
       run: dotnet test
+    - name: publish
+      run: |
+        cd CozyCommandLineParser/Scripts
+        chmod +711 publish.sh
+        ./publish.sh
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        NUGET_TOKEN: ${{ secrets.NUGET_TOKEN }}
