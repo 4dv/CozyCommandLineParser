@@ -21,5 +21,5 @@ jobs:
       run: dotnet build --configuration Release
     - name: Run tests
       run: dotnet test
-    - name: publish
-      run dotnet nuget push AppLogger.1.0.0.nupkg -k qz2jga8pl3dvn2akksyquwcs9ygggg4exypy3bhxy6w6x6 -s https://api.nuget.org/v3/index.json
+#    - name: publish
+#      run: dotnet nuget push AppLogger.1.0.0.nupkg -k qz2jga8pl3dvn2akksyquwcs9ygggg4exypy3bhxy6w6x6 -s https://api.nuget.org/v3/index.json
