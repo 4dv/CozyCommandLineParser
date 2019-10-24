@@ -21,7 +21,7 @@ namespace CCLPTest
 
             var answer = commandLine.GetHelp(null);
 
-            var expected = @"Usage: Tests: CCLPTest [COMMAND] [OPTIONS...]
+            var expected = @"Usage: testhost [COMMAND] [OPTIONS...]
 
 Available commands:
   -h|--help|help    Default. Prints help, use `help <COMMAND>` to get a help for specific command
