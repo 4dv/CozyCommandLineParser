@@ -9,19 +9,6 @@ jobs:
 
     steps:
     - uses: actions/checkout@v1
-    - name: shell
-      run: |
-        echo "HOME=$HOME GITHUB_WORKFLOW=$GITHUB_WORKFLOW GITHUB_ACTION=$GITHUB_ACTION GITHUB_ACTOR=$GITHUB_ACTOR GITHUB_REPOSITORY=$GITHUB_REPOSITORY GITHUB_EVENT_NAME=$GITHUB_EVENT_NAME GITHUB_EVENT_PATH=$GITHUB_EVENT_PATH GITHUB_WORKSPACE=$GITHUB_WORKSPACE GITHUB_SHA=$GITHUB_SHA GITHUB_REF=$GITHUB_REF"
-        ls -al
-        pwd
-        ls ..
-        pwd
-        ls ../..
-        pwd
-        cd CozyCommandLineParser/Scripts
-        ls -al
-        chmod +711 publish.sh
-        ./publish.sh
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
       with:
@@ -30,5 +17,12 @@ jobs:
       run: dotnet build --configuration Release
     - name: Run tests
       run: dotnet test
+    - name: publish
+      run: |
+        echo "HOME=$HOME GITHUB_WORKFLOW=$GITHUB_WORKFLOW GITHUB_ACTION=$GITHUB_ACTION GITHUB_ACTOR=$GITHUB_ACTOR GITHUB_REPOSITORY=$GITHUB_REPOSITORY GITHUB_EVENT_NAME=$GITHUB_EVENT_NAME GITHUB_EVENT_PATH=$GITHUB_EVENT_PATH GITHUB_WORKSPACE=$GITHUB_WORKSPACE GITHUB_SHA=$GITHUB_SHA GITHUB_REF=$GITHUB_REF"
+        cd CozyCommandLineParser/Scripts
+        chmod +711 publish.sh
+        ./publish.sh
+
 #    - name: publish
 #      run: dotnet nuget push AppLogger.1.0.0.nupkg -k qz2jga8pl3dvn2akksyquwcs9ygggg4exypy3bhxy6w6x6 -s https://api.nuget.org/v3/index.json
