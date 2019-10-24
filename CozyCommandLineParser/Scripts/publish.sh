@@ -38,27 +38,6 @@ if [[ -z "$gitOutput" ]]; then
     }
 EOF
     dotnet nuget push $latest -k "$NUGET_TOKEN" -s https://api.nuget.org/v3/index.json
-#    nuget sources Add -Name "GPR" \
-#     -Source "https://nuget.pkg.github.com/OWNER/index.json" \
-#     -UserName 4dv -Password "$GITHUB_TOKEN"
-#
-#    nuget push $latest -Source "GPR"
 else
     echo "tag already exist"
 fi
-
-
-#tag=$(git tag -l --contains HEAD)
-#echo "Found tag '$tag'"
-#if [[ $tag == release/* ]]; then
-#    echo "release tag exist"
-#fi
-#echo "Hi from script!"
-#pwd
-#cd ..
-#dotnet build
-#
-#cd bin/Debug
-#latest=$(ls -t *.nupkg | head -n1)
-#echo "publishing latest nupkg: $latest"
-#dotnet nuget push $latest -k "$GITHUB_NUGET_4DV_KEY" -s https://nuget.pkg.github.com/4dv/index.json
