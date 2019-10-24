@@ -18,6 +18,7 @@ echo "'$gitOutput'"
 if [[ -z "$gitOutput" ]]; then
     echo "new version $version was found, set tag and publish release"
     git tag $tagName || exit 1
+    git push --tags || exit 1
 else
     echo "tag already exist"
 fi
