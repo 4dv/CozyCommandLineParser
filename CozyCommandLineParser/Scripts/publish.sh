@@ -38,8 +38,12 @@ if [[ -z "$gitOutput" ]]; then
     }
 EOF
     dotnet nuget push $latest -k "$NUGET_TOKEN" -s https://api.nuget.org/v3/index.json
-    dotnet nuget push $latest -k "$GITHUB_TOKEN" -s https://nuget.pkg.github.com/4dv/index.json
 
+    nuget sources Add -Name "GPR" \
+     -Source "https://nuget.pkg.github.com/OWNER/index.json" \
+     -UserName 4dv -Password "$GITHUB_TOKEN"
+
+    nuget push $latest -Source "GPR"
 else
     echo "tag already exist"
 fi
