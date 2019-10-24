@@ -20,6 +20,7 @@ jobs:
         pwd
         cd CozyCommandLineParser/Scripts
         ls -al
+        chmod +711 publish.sh
         ./publish.sh
     - name: Setup .NET Core
       uses: actions/setup-dotnet@v1
