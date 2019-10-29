@@ -1,7 +1,4 @@
-﻿using System;
-using System.IO;
-using System.Threading;
-using CozyCommandLineParser;
+﻿using CozyCommandLineParser;
 using NUnit.Framework;
 
 namespace CCLPTest

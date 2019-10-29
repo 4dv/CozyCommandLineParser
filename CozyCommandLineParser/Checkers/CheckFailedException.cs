@@ -1,6 +1,6 @@
 using System;
 
-namespace Checkers
+namespace CozyCommandLineParser.Checkers
 {
     public class CheckFailedException : Exception
     {

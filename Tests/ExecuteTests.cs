@@ -1,7 +1,6 @@
-﻿using System.Threading;
-using AnotherCCLPTest;
-using Checkers;
+﻿using AnotherCCLPTest;
 using CozyCommandLineParser;
+using CozyCommandLineParser.Checkers;
 using NUnit.Framework;
 
 namespace CCLPTest

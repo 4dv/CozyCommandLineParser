@@ -2,10 +2,10 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
-using Checkers;
 using CozyCommandLineParser.Attributes;
 using CozyCommandLineParser.Helpers;
 using CozyCommandLineParser.Utils;
+using Ensure = CozyCommandLineParser.Checkers.Ensure;
 
 namespace CozyCommandLineParser
 {

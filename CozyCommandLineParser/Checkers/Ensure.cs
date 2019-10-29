@@ -1,6 +1,6 @@
 ﻿using JetBrains.Annotations;
 
-namespace Checkers
+namespace CozyCommandLineParser.Checkers
 {
     public static class Ensure
     {
@@ -8,7 +8,7 @@ namespace Checkers
         public static T NotNull<T>(T val, string message = null) where T : class
         {
             if (message == null) message = "Type " + typeof(T);
-            if (val == null) throw new CheckFailedException(message);
+            if (val == null) throw new CozyCommandLineParser.Checkers.CheckFailedException(message);
             return val;
         }
     }
