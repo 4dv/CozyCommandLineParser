@@ -39,7 +39,7 @@ It will add the following commands:
 * `prog` or `prog help` or `prog -h` or `prog --help` help is printed
 * `prog version` or `prog --version` program version is printed 
 
-Docs is not finished, you can find more examples [here](../SampleProject/Commands.cs) 
+Docs are not finished, meanwhile you can find more examples [here](../SampleProject/Commands.cs) 
  
 ## Current limitations
 * CCLP is centered around the command concept like it is done in git. You can have one default command, then if the method is not specified it will be called. But it is still considered as a command so you can also call it directly by name. 
