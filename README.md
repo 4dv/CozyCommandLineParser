@@ -1,13 +1,29 @@
 # Cozy Command Line Parser
-The project is intended to make adding CLI to your program as easy and cozy as possible. All you have to do, just add `[Command]` attribute to the methods you want to work as a command, create new `CommandLine` instance and run its `Execute` method with args from your Main method. Everything else will be done by CCLP:
-* it finds all methods which have `Command` attribute
-* checks that not more than one method corresponds to the same command. Otherwise throws `CommandLineExcpetion`
-* find which method matches provided command
-* creates an instance of a class where the method is defined
-* if the class has properties with `Option` attribute and user provides named arguments, fill those properties with arguments, converting to expected type if it is int, double, etc
-* if the method has arguments fill them with positional command-line arguments
-* or use default values it specified
-* execute the command * print returned value to console, unfolding enumerable (can be disabled, see `ParserOptions.OutputPrinter`)
+The project is intended to make adding CLI to your program as easy and cozy as possible. All you have to do, just:
+
+1. Add `[Command]` attribute to the methods you want to work as commands
+2. Create new `CommandLine` instance 
+3. Run its `Execute` method with args from your Main.
+ 
+ Everything else will be done by CCLP:
+* It finds all methods which have `Command` attribute
+* Checks that not more than one method corresponds to the same command. Otherwise throws `CommandLineExcpetion`
+* Finds which method matches provided command
+* Creates an instance of a class where the method is defined
+* If the class has properties with `Option` attribute and user provides named arguments, fills those properties with arguments, converting to expected type if it is int, double, etc
+* If the method has arguments fill them with positional command-line arguments
+* Or use default values it specified
+* Executes the command 
+* And prints returned value to console, unfolding enumerable (can be disabled, see `ParserOptions.OutputPrinter`)
+
+## Install
+Install with 
+```
+Install-Package CozyCommandLineParser
+```
+
+Nuget is here: https://www.nuget.org/packages/CozyCommandLineParser/
+
 ## Examples
 In the following examples lets assume you have a program named **prog** and want to add some commands to it. The simplest way to add a couple of commands will be:
 ```C#

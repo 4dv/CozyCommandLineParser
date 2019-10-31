@@ -9,17 +9,17 @@ namespace CozyCommandLineParser
 {
     public class CommandsSearcher
     {
-        public static List<Type> FindAllTypes(ParserOptions options, Assembly defaultAssembly,
+        public static List<Type> FindAllTypes(ParserOptions options,
             params Type[] additionalTypes)
         {
-            var allTypes = new List<Type>(additionalTypes);
+            var allTypes = new List<Type>();
 
             IReadOnlyList<Type> types = options.SearchInTypes;
             if (types != null) allTypes.AddRange(types);
 
             IReadOnlyList<Assembly> assemblies = options.SearchInAssemblies;
             if (options.SearchInTypes == null && options.SearchInAssemblies == null)
-                assemblies = new[] {defaultAssembly};
+                assemblies = new[] {options.CallingAssembly};
 
             HashSet<string> nsSet = options.SearchFilterByNamespaces == null
                 ? null
@@ -32,6 +32,8 @@ namespace CozyCommandLineParser
                         t.GetMethods().Any(m => m.HasAttribute<CommandAttribute>()));
                 allTypes.AddRange(typesFromAssemblies);
             }
+
+            allTypes.AddRange(additionalTypes);
 
             return allTypes;
         }

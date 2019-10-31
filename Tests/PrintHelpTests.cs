@@ -21,14 +21,14 @@ namespace CCLPTest
             var expected = @"Usage: testhost [COMMAND] [OPTIONS...]
 
 Available commands:
-  -h|--help|help    Default. Prints help, use `help <COMMAND>` to get a help for specific command
-  --version|version Prints program version
   anotherCommand    Another command description
   derivedCommand    Command in derived class
   simpleCommand     Simple command to run
   commandWithArgs   This command has two arguments
   commandWithParams This command can have any number of arguments
   commandWithIntParams This command can have any number of int arguments
+  -h|--help|help    Default. Prints help, use `help <COMMAND>` to get a help for specific command
+  --version|version Prints program version
 ";
             Assert.AreEqual(expected, answer);
         }

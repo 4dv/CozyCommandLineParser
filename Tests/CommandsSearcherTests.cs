@@ -14,18 +14,18 @@ namespace CCLPTest
         {
             Assembly defaultAssembly = Assembly.GetExecutingAssembly();
 
-            var options = new ParserOptions();
-            List<Type> types = CommandsSearcher.FindAllTypes(options, defaultAssembly);
+            var options = new ParserOptions(defaultAssembly);
+            List<Type> types = CommandsSearcher.FindAllTypes(options);
             Assert.AreEqual(
                 new[] {typeof(AnotherTestCommands), typeof(AnotherTestCommandsDerived), typeof(TestCommands)},
                 types);
 
             options = new ParserOptions {SearchFilterByNamespaces = new[] {"AnotherCCLPTest"}};
-            types = CommandsSearcher.FindAllTypes(options, defaultAssembly);
+            types = CommandsSearcher.FindAllTypes(options);
             Assert.AreEqual(new[] {typeof(AnotherTestCommands), typeof(AnotherTestCommandsDerived)}, types);
 
             options = new ParserOptions {SearchInTypes = new[] {typeof(TestCommands)}};
-            types = CommandsSearcher.FindAllTypes(options, defaultAssembly);
+            types = CommandsSearcher.FindAllTypes(options);
             Assert.AreEqual(new[] {typeof(TestCommands)}, types);
         }
     }

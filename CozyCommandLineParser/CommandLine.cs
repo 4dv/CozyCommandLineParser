@@ -26,7 +26,7 @@ namespace CozyCommandLineParser
         {
             this.Options = options = options ?? new ParserOptions(Assembly.GetCallingAssembly());
 
-            List<Type> types = CommandsSearcher.FindAllTypes(options, Assembly.GetCallingAssembly(), this.GetType());
+            List<Type> types = CommandsSearcher.FindAllTypes(options, this.GetType());
             Commands = new CommandsDictionary(types, options);
         }
 
