@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Reflection;
 using System.Text;
@@ -90,7 +91,10 @@ namespace CozyCommandLineParser
             LastCommandInstance = instance;
 
             // todo DimaCh add meaningful message if we don't have enough arguments for the command
-            return methodInfo.Invoke(instance, parameters);
+            var res = methodInfo.Invoke(instance, parameters);
+            if(res?.GetType() != typeof(void))
+                Options?.OutputPrinter.Invoke(res);
+            return res;
         }
 
 

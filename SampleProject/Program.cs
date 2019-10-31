@@ -7,7 +7,7 @@ namespace SampleProject
 {
     class Program
     {
-        [Option( Description="Verbose mode")]
+        [Option(Description = "Verbose mode")]
         public bool Verbose { get; set; }
 
         [Command]
@@ -19,7 +19,7 @@ namespace SampleProject
 
         private void LogExecutedIfVerbose([CallerMemberName] string callerName = "")
         {
-            if(Verbose) Console.WriteLine(callerName + " was called");
+            if (Verbose) Console.WriteLine(callerName + " was called");
         }
 
         [Command]
@@ -31,7 +31,10 @@ namespace SampleProject
 
         static void Main(string[] args)
         {
-            new CommandLine().Execute(args);
+            new CommandLine(
+                    new ParserOptions()
+                        {OutputPrinter = msg => new SimpleOutputPrinter() {EnumSeparator = " "}.Print(msg)})
+                .Execute(args);
         }
     }
 }

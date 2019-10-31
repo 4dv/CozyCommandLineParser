@@ -63,5 +63,14 @@ namespace CozyCommandLineParser
         /// culture used to parse and format numbers, datetime etc
         /// </summary>
         public static CultureInfo Culture { get; set; } = CultureInfo.InvariantCulture;
+
+        /// <summary>
+        /// if it is not null and called command is not void the returned value will be passed to this action
+        /// by default SimpleOutputPrinter is used, which ignores null values,
+        /// and Enumerable items are unfolded up to 9 levels deep and printed one on each line
+        /// <see cref="SimpleOutputPrinter"/> for customization.
+        /// if OutputPrinter is NULL returned value is ignored.
+        /// </summary>
+        public Action<object> OutputPrinter { get; set; } = obj => new SimpleOutputPrinter().Print(obj);
     }
 }

@@ -14,7 +14,7 @@ fi
 tagName="release/$version"
 gitOutput=$(git tag -l "$tagName")
 
-# if such tag is not exist
+# if such tag does not exist
 if [[ -z "$gitOutput" ]]; then
     echo "new version $version was found, set tag and publish release"
     git tag $tagName || exit 1
@@ -38,6 +38,15 @@ if [[ -z "$gitOutput" ]]; then
     }
 EOF
     dotnet nuget push $latest -k "$NUGET_TOKEN" -s https://api.nuget.org/v3/index.json
+    # there is no nuget cli in github dotnet image and dotnet nuget push doesn't work for github registry
+    # looks like it need Name UserName parameter which can not be set through dotnet nuget push
+#    dotnet nuget push $latest -k "$GITHUB_TOKEN" -s https://nuget.pkg.github.com/4dv/index.json
+
+#    nuget sources Add -Name "GPR" \
+#     -Source "https://nuget.pkg.github.com/OWNER/index.json" \
+#     -UserName 4dv -Password "$GITHUB_TOKEN"
+#
+#    nuget push $latest -Source "GPR"
 else
     echo "tag already exist"
 fi
