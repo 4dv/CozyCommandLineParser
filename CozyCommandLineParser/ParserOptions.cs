@@ -12,19 +12,20 @@ namespace CozyCommandLineParser
         public ParserOptions(Assembly asm = null)
         {
             var fname = System.AppDomain.CurrentDomain.FriendlyName;
-            var sb = new StringBuilder($"Usage: {fname} [COMMAND] [OPTIONS...]");
-            sb.AppendLine().AppendLine().AppendLine("Available commands:");
+            var sb = new StringBuilder($"Usage: {fname} [COMMAND] [OPTIONS...]").AppendLine();
 
-            HelpHeader = sb.ToString();
 
             CallingAssembly = asm ?? Assembly.GetCallingAssembly();
 
-            /*var description = CallingAssembly.GetCustomAttribute<AssemblyDescriptionAttribute>()?.Description;
+            var description = CallingAssembly.GetCustomAttribute<AssemblyDescriptionAttribute>()?.Description;
             var title = CallingAssembly.GetCustomAttribute<AssemblyTitleAttribute>()?.Title;
-            var version = CallingAssembly.GetCustomAttribute<AssemblyVersionAttribute>()?.Version;
+            var version = CallingAssembly.GetCustomAttribute<AssemblyFileVersionAttribute>()?.Version;
             VersionInfo = $"{title} {version}";
-            if(!string.IsNullOrWhiteSpace(VersionInfo) && !string.IsNullOrWhiteSpace(description))
-                HelpHeader += Environment.NewLine + $"{description}";*/
+            if (!string.IsNullOrWhiteSpace(description))
+                sb.AppendLine(description);
+
+            sb.AppendLine().AppendLine("Available commands:");
+            HelpHeader = sb.ToString();
         }
 
         public string VersionInfo { get; set; }
