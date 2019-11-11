@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Reflection;
+using System.Text;
 using CozyCommandLineParser.Attributes;
 using Ensure = CozyCommandLineParser.Checkers.Ensure;
 
@@ -44,6 +45,49 @@ namespace CozyCommandLineParser
             }
 
             base.ProcessMemberInfo(mi, attr);
+        }
+
+        public string GetFullDescription(MemberInfo mi)
+        {
+            NamedAttribute attr = Ensure.NotNull(mi.GetCustomAttribute<NamedAttribute>());
+
+            var names = GetNames(mi).ToList();
+            var namesStr = string.Join("|", names);
+
+            var sb = new StringBuilder();
+            sb.Append(namesStr);
+
+
+            var mb = (MethodBase) mi;
+            foreach (ParameterInfo pi in mb.GetParameters())
+            {
+                sb.Append(" ");
+                var name = pi.Name;
+
+                if (pi.HasDefaultValue)
+                    name = $"[{name}]";
+                sb.Append(name);
+            }
+
+            sb.AppendLine();
+
+            foreach (ParameterInfo pi in mb.GetParameters())
+            {
+                sb.Append($"  {pi.Name} {pi.ParameterType.Name}, ");
+
+                if (pi.HasDefaultValue)
+                    sb.Append("Default=").Append(pi.DefaultValue);
+
+                attr = pi.GetCustomAttribute<NamedAttribute>();
+                if (attr != null)
+                {
+                    sb.Append(' ').Append(attr.Description);
+                }
+
+                sb.AppendLine();
+            }
+            sb.AppendLine();
+            return sb.ToString();
         }
 
         protected override string GetItemDescription(string name, NamedAttribute attr0)

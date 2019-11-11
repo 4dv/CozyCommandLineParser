@@ -10,8 +10,8 @@ namespace SampleProject
         [Option(Description = "Verbose mode")]
         public bool Verbose { get; set; }
 
-        [Command]
-        public void SayHi(string name)
+        [Command(Description = "Say hi to a person")]
+        public void SayHi([Option(Description = "Person name")]string name, int val=11)
         {
             LogExecutedIfVerbose();
             Console.WriteLine("Hi " + name);

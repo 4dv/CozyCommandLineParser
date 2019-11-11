@@ -51,7 +51,7 @@ namespace CozyCommandLineParser
             else
             {
                 var methodInfo = Commands.GetMatchingMethod(command);
-                sb.AppendLine(Commands.GetDescription(methodInfo).Trim());
+                sb.AppendLine(Commands.GetFullDescription(methodInfo).Trim());
 
                 Type type = Ensure.NotNull(methodInfo.DeclaringType);
 

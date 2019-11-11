@@ -39,7 +39,8 @@ Available commands:
             var commandLine = new CommandLine();
 
             var answer = commandLine.GetHelp("anotherCommand");
-            var expected = @"anotherCommand    Another command description
+            var expected = @"anotherCommand [val]
+  val Int32, Default=0
   --anotherInt      Int argument
 ";
             Assert.AreEqual(expected, answer);
@@ -51,7 +52,9 @@ Available commands:
             var commandLine = new CommandLine();
 
             var answer = commandLine.GetHelp("commandWithArgs");
-            var expected = @"commandWithArgs   This command has two arguments
+            var expected = @"commandWithArgs [arg] [arg2]
+  arg String, Default=abc first argument for the command
+  arg2 Int32, Default=42 second argument, it is int
   --stringOption|-s some option with string value
   --intOption       Int option will use default name --intOption
   -b                
